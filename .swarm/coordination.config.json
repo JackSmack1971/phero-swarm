@@ -1,0 +1,47 @@
+{
+  "peerCoordination": {
+    "handshakeProtocol": {
+      "timeout": "5m",
+      "retryAttempts": 2,
+      "fallbackAction": "escalate_to_uber_orchestrator",
+      "compressionEnabled": true,
+      "consolidationWindow": "30m"
+    },
+    "consultationProtocol": {
+      "timeout": "10m",
+      "maxConcurrentConsultations": 3,
+      "fallbackAction": "proceed_with_best_judgment",
+      "compressionDelay": "30m"
+    },
+    "boundaryManagement": {
+      "violationPolicy": "escalate",
+      "conflictResolution": "consensus_with_fallback",
+      "maxActiveBoundaries": 10,
+      "boundaryTTL": "2h"
+    },
+    "signalTypes": {
+      "handshake": ["orchestrator_handshake_offered", "orchestrator_handshake_accepted"],
+      "consultation": ["orchestrator_consultation_requested", "orchestrator_consultation_response"],
+      "boundary": ["orchestrator_boundary_established", "orchestrator_integration_point_identified"],
+      "consolidated": ["peer_coordination_established"]
+    },
+    "compressionRules": {
+      "consolidateHandshakes": true,
+      "archiveCompletedConsultations": true,
+      "summarizeBoundaryStates": true,
+      "retainActiveCoordinationsOnly": true
+    }
+  },
+  "agentMonitoring": {
+    "heartbeatInterval": "30m",
+    "maxSilenceThreshold": "2h",
+    "compressionEnabled": true,
+    "healthSummaryOnly": true,
+    "monitoredAgents": ["uber-orchestrator", "orchestrator-pheromone-scribe", "metagenesis-orchestrator", "orchestrator-project-initialization", "orchestrator-framework-scaffolding"],
+    "recoveryProtocol": {
+      "maxAttempts": 3,
+      "escalationPath": "orchestrator-error-recovery",
+      "timeoutMultiplier": 1.5
+    }
+  }
+}
