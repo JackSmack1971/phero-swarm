@@ -1,0 +1,200 @@
+{
+  "interpretationLogic": {
+    "semanticPatterns": {
+      "project_initialization_complete": ["Project initialization completed for {project_name}", "Initial setup finished for project {project_name}", "Foundation established for {project_name}"],
+      "framework_scaffolding_needed": ["Framework scaffolding required for {project_name}", "Infrastructure setup needed for {project_name}", "Base framework implementation required"],
+      "feature_lifecycle_complete": ["Feature {feature_name} lifecycle completed", "All milestones achieved for {feature_name}", "Complete development cycle finished for {feature_name}"],
+      "peer_coordination_established": ["Coordination established with {orchestrator_name}", "Successful handshake completed", "Peer orchestrator relationship active"],
+      "integration_conflict_detected": ["Integration conflict between {feature_a} and {feature_b}", "Compatibility issue detected", "Resource conflict during integration"],
+      "mode_performance_degraded": [
+        "failed due to maximum attempts",
+        "partial completion due to token limit", 
+        "exceeded iteration count",
+        "debugging required repeatedly",
+        "multiple debugging cycles",
+        "reached maximum internal attempts",
+        "token limit approached",
+        "performance below expected threshold",
+        "inefficient execution pattern detected",
+        "suboptimal approach identified"
+      ],
+      "optimization_opportunity_identified": [
+        "similar failures recurring",
+        "inefficient approach detected",
+        "better methodology available",
+        "pattern suggests improvement potential",
+        "optimization recommendations available",
+        "performance enhancement possible",
+        "more efficient strategy exists",
+        "workflow optimization needed"
+      ],
+      "agent_inefficiency_detected": [
+        "repeated task reassignment",
+        "excessive resource consumption",
+        "prolonged execution time",
+        "multiple restart attempts",
+        "coordination failures",
+        "communication breakdown",
+        "resource contention detected"
+      ],
+      "evolution_trigger_activated": [
+        "mode evolution recommended",
+        "performance threshold exceeded",
+        "improvement cycle triggered",
+        "adaptation required",
+        "enhancement opportunity confirmed",
+        "evolution criteria met"
+      ],
+      "performance_baseline_established": [
+        "baseline performance recorded",
+        "initial metrics established",
+        "performance benchmark set",
+        "measurement baseline created"
+      ],
+      "evolution_effectiveness_measured": [
+        "evolution impact assessed",
+        "performance improvement confirmed",
+        "enhancement effectiveness validated",
+        "evolution success measured"
+      ]
+    },
+    "performanceIndicators": {
+      "degradationKeywords": [
+        "failed", "partial completion", "token limit", "maximum attempts", 
+        "debugging required", "inefficient", "suboptimal", "exceeded", 
+        "timeout", "error", "restart", "reassignment", "retry"
+      ],
+      "efficiencyKeywords": [
+        "optimization", "improvement", "enhancement", "better approach",
+        "more efficient", "streamlined", "optimized", "refined", 
+        "upgraded", "enhanced performance"
+      ],
+      "timeIndicators": [
+        "took longer than expected", "exceeded time limit", "slow execution",
+        "delayed completion", "prolonged processing", "extended duration"
+      ],
+      "resourceIndicators": [
+        "high memory usage", "cpu intensive", "resource exhaustion",
+        "memory limit", "processing overhead", "resource contention"
+      ]
+    },
+    "patternExtraction": {
+      "featureNamePattern": "(?:feature|module|component)\\s+['\"]?([A-Za-z0-9_\\-\\s]+)['\"]?",
+      "agentNamePattern": "@([A-Za-z0-9_\\-]+)",
+      "filePathPattern": "(?:path|file|document|at|saved at|located at)\\s*[:=\\-\\s]*['\"]?((?:[a-zA-Z]:)?(?:[/\\\\][\\w\\s.-]+)*[/\\\\]?[\\w\\s.-]+\\.[a-zA-Z0-9]+)['\"]?",
+      "orchestratorNamePattern": "(?:orchestrator)[\\s\\-]*([A-Za-z0-9_\\-]+)",
+      "lifecycleStagePattern": "(?:spec|architecture|test|implementation|integration)\\s*(?:complete|finished|ready)",
+      "performanceMetricPattern": "(?:completed in|took|duration|elapsed|time)\\s*(\\d+)\\s*(minutes?|seconds?|hours?|ms|milliseconds?)",
+      "iterationCountPattern": "(?:attempt|iteration|cycle|retry)\\s*(\\d+)",
+      "failureCountPattern": "(?:failed|error|exception)\\s*(\\d+)\\s*(?:times?|attempts?)",
+      "tokenUsagePattern": "(?:token|tokens)\\s*(?:used|consumed|limit|exceeded)\\s*(\\d+)"
+    },
+    "consolidationLogic": {
+      "featureDevelopment": {
+        "triggerSequence": ["feature_specification_complete", "feature_architecture_complete", "feature_test_plan_complete", "feature_implementation_complete"],
+        "consolidateToType": "feature_lifecycle_complete",
+        "timeWindowHours": 24,
+        "preserveData": ["feature_name", "completion_timestamps", "final_status", "performance_metrics"],
+        "strengthCalculation": "max_from_sequence"
+      },
+      "coordinationProtocol": {
+        "triggerSequence": ["orchestrator_handshake_offered", "orchestrator_handshake_accepted"],
+        "consolidateToType": "peer_coordination_established",
+        "timeWindowMinutes": 30,
+        "preserveData": ["coordination_id", "participants", "outcome"],
+        "requireSameCoordinationId": true
+      },
+      "performanceAnalysis": {
+        "triggerSequence": ["performance_baseline_established", "mode_performance_degraded", "optimization_opportunity_identified"],
+        "consolidateToType": "evolution_trigger_activated",
+        "timeWindowHours": 48,
+        "preserveData": ["mode_name", "performance_metrics", "degradation_reasons", "optimization_opportunities"],
+        "strengthCalculation": "weighted_average",
+        "minimumDegradationCount": 2
+      }
+    },
+    "performanceAnalysisRules": {
+      "baselineEstablishment": {
+        "triggers": ["task completion", "successful execution", "normal operation"],
+        "trackMetrics": ["completion_time", "iteration_count", "success_rate", "resource_usage"],
+        "samplingWindow": "24h",
+        "minimumSamples": 3
+      },
+      "degradationDetection": {
+        "timeThresholds": {
+          "warning": "30m",
+          "critical": "60m"
+        },
+        "iterationThresholds": {
+          "warning": 5,
+          "critical": 8
+        },
+        "failureRateThresholds": {
+          "warning": 0.2,
+          "critical": 0.4
+        },
+        "tokenUsageThresholds": {
+          "warning": 300000,
+          "critical": 350000
+        }
+      },
+      "optimizationTriggers": {
+        "patternRecognition": {
+          "similarFailures": {"minCount": 3, "timeWindow": "24h"},
+          "inefficientApproaches": {"minCount": 2, "timeWindow": "12h"},
+          "resourceWaste": {"threshold": 0.3, "timeWindow": "6h"}
+        },
+        "performanceComparison": {
+          "baselineDeviation": {"threshold": 0.5, "metric": "completion_time"},
+          "successRateDecline": {"threshold": 0.3, "timeWindow": "24h"},
+          "resourceEfficiency": {"threshold": 0.4, "comparison": "historical_average"}
+        }
+      },
+      "evolutionEffectiveness": {
+        "measurementWindow": "72h",
+        "comparisonMetrics": ["completion_time", "success_rate", "iteration_count", "resource_efficiency"],
+        "improvementThreshold": 0.15,
+        "sustainabilityWindow": "168h"
+      }
+    },
+    "registryLogic": {
+      "documentCreation": ["document created", "specification written", "plan generated", "report compiled", "DOCUMENT CREATED"],
+      "documentConsolidation": ["documentation batch", "registry update", "DOCUMENTATION BATCH UPDATE"],
+      "performanceReporting": ["performance report", "analysis complete", "metrics compiled", "baseline established", "evolution measured"],
+      "maxActiveDocuments": 25,
+      "archiveAfterDays": 7,
+      "relationshipPruneThreshold": 0.6,
+      "performanceDataRetention": "30d"
+    },
+    "evolutionAnalysis": {
+      "triggerPatterns": {
+        "repeated_failures": {
+          "pattern": "(?:failed|error|unsuccessful).*(?:same|similar|repeated)",
+          "minOccurrences": 3,
+          "timeWindow": "24h"
+        },
+        "efficiency_decline": {
+          "pattern": "(?:took longer|slower|inefficient|suboptimal)",
+          "comparisonRequired": true,
+          "threshold": 0.3
+        },
+        "resource_waste": {
+          "pattern": "(?:token limit|memory|cpu|resource).*(?:exceeded|high|waste)",
+          "aggregationWindow": "12h"
+        }
+      },
+      "modeTargeting": {
+        "extractModeFromSummary": true,
+        "fallbackToOrchestrator": true,
+        "priorityModes": ["coder-test-driven", "tester-tdd-master", "debugger-targeted", "optimizer-module"]
+      },
+      "evolutionPriority": {
+        "criticalPerformance": 1.0,
+        "repeatedFailures": 0.9,
+        "resourceInefficiency": 0.8,
+        "userExperience": 0.7,
+        "codeQuality": 0.6
+      }
+    }
+  }
+}

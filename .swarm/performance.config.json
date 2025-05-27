@@ -1,0 +1,224 @@
+{
+  "performanceMonitoring": {
+    "trackingEnabled": true,
+    "baselineWindow": "24h",
+    "trendAnalysis": true,
+    "realTimeMonitoring": false,
+    "metrics": {
+      "taskCompletion": {
+        "enabled": true,
+        "trackDuration": true,
+        "trackIterations": true,
+        "trackSuccessRate": true,
+        "thresholds": {
+          "duration": {
+            "warning": "30m",
+            "critical": "60m"
+          },
+          "iterations": {
+            "warning": 5,
+            "critical": 8
+          },
+          "successRate": {
+            "warning": 0.8,
+            "critical": 0.6
+          }
+        }
+      },
+      "resourceUsage": {
+        "enabled": true,
+        "trackTokens": true,
+        "trackMemory": false,
+        "trackCpu": false,
+        "thresholds": {
+          "tokenUsage": {
+            "warning": 300000,
+            "critical": 350000
+          },
+          "tokenLimitHits": {
+            "warning": 1,
+            "critical": 3
+          }
+        }
+      },
+      "errorPatterns": {
+        "enabled": true,
+        "trackFailureTypes": true,
+        "trackRecurringErrors": true,
+        "thresholds": {
+          "failureRate": {
+            "warning": 0.2,
+            "critical": 0.4
+          },
+          "recurringErrors": {
+            "warning": 2,
+            "critical": 4
+          }
+        }
+      }
+    },
+    "modeSpecificConfig": {
+      "coder-test-driven": {
+        "primaryMetrics": ["completion_time", "iteration_count", "debugging_cycles"],
+        "customThresholds": {
+          "debugging_cycles": {
+            "warning": 2,
+            "critical": 4
+          }
+        },
+        "evolutionTriggers": [
+          "repeated_debugging_cycles",
+          "token_limit_exceeded",
+          "max_attempts_reached"
+        ]
+      },
+      "tester-tdd-master": {
+        "primaryMetrics": ["test_creation_time", "test_execution_success", "coverage_adequacy"],
+        "customThresholds": {
+          "test_creation_time": {
+            "warning": "20m",
+            "critical": "40m"
+          }
+        },
+        "evolutionTriggers": [
+          "incomplete_test_coverage",
+          "test_creation_delays",
+          "execution_failures"
+        ]
+      },
+      "debugger-targeted": {
+        "primaryMetrics": ["diagnosis_time", "solution_accuracy", "token_usage"],
+        "customThresholds": {
+          "diagnosis_time": {
+            "warning": "45m",
+            "critical": "90m"
+          }
+        },
+        "evolutionTriggers": [
+          "prolonged_diagnosis",
+          "inaccurate_solutions",
+          "token_exhaustion"
+        ]
+      },
+      "optimizer-module": {
+        "primaryMetrics": ["optimization_time", "improvement_achieved", "resource_efficiency"],
+        "customThresholds": {
+          "optimization_time": {
+            "warning": "40m",
+            "critical": "80m"
+          }
+        },
+        "evolutionTriggers": [
+          "minimal_improvement",
+          "optimization_timeout",
+          "resource_waste"
+        ]
+      }
+    }
+  },
+  "evolutionTriggers": {
+    "globalTriggers": {
+      "performanceDegradation": {
+        "enabled": true,
+        "threshold": 0.3,
+        "timeWindow": "24h",
+        "minOccurrences": 3
+      },
+      "repeatedFailures": {
+        "enabled": true,
+        "sameMode": true,
+        "timeWindow": "12h",
+        "minOccurrences": 2
+      },
+      "inefficiencyDetection": {
+        "enabled": true,
+        "comparisonBaseline": "rolling_average",
+        "deviationThreshold": 0.5,
+        "timeWindow": "48h"
+      },
+      "resourceExhaustion": {
+        "enabled": true,
+        "tokenLimitHits": 2,
+        "partialCompletions": 3,
+        "timeWindow": "24h"
+      }
+    },
+    "consolidationRules": {
+      "minimumSignalStrength": 0.6,
+      "requireMultipleIndicators": true,
+      "cooldownPeriod": "6h",
+      "maxEvolutionsPerDay": 3
+    }
+  },
+  "baselineManagement": {
+    "establishmentCriteria": {
+      "minimumSamples": 3,
+      "samplingWindow": "24h",
+      "excludeOutliers": true,
+      "outlierThreshold": 2.0
+    },
+    "updateFrequency": "daily",
+    "retentionPeriod": "30d",
+    "comparisonMetrics": [
+      "completion_time_average",
+      "success_rate",
+      "iteration_count_average",
+      "token_usage_average"
+    ]
+  },
+  "evolutionEffectiveness": {
+    "measurementEnabled": true,
+    "preEvolutionBaseline": "required",
+    "postEvolutionWindow": "72h",
+    "sustainabilityCheck": "168h",
+    "improvementThreshold": 0.15,
+    "regressionThreshold": -0.1,
+    "metrics": {
+      "performance": {
+        "weight": 0.4,
+        "components": ["completion_time", "success_rate"]
+      },
+      "efficiency": {
+        "weight": 0.3,
+        "components": ["iteration_count", "resource_usage"]
+      },
+      "quality": {
+        "weight": 0.2,
+        "components": ["error_rate", "debugging_frequency"]
+      },
+      "sustainability": {
+        "weight": 0.1,
+        "components": ["consistency", "adaptation"]
+      }
+    }
+  },
+  "reportingConfig": {
+    "generateReports": true,
+    "reportFrequency": "daily",
+    "includeTrends": true,
+    "alertThresholds": {
+      "criticalPerformance": true,
+      "evolutionOpportunities": true,
+      "systemHealth": true
+    },
+    "exportFormats": ["json", "summary"],
+    "retentionPeriod": "90d"
+  },
+  "integrationConfig": {
+    "pheromoneScribe": {
+      "autoGenerateSignals": true,
+      "signalStrengthCalculation": "threshold_based",
+      "consolidationEnabled": true
+    },
+    "uberOrchestrator": {
+      "routingEnabled": true,
+      "evolutionPriority": "high",
+      "escalationEnabled": true
+    },
+    "metagenesis": {
+      "autoTrigger": true,
+      "evolutionScope": "targeted",
+      "validationRequired": false
+    }
+  }
+}

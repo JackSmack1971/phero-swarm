@@ -1,0 +1,228 @@
+{
+  "collectiveIntelligence": {
+    "bayesianNetwork": {
+      "maxNodes": 8,
+      "maxEdges": 12,
+      "coreBeliefs": [
+        "project_success_probability", 
+        "timeline_adherence", 
+        "quality_trajectory", 
+        "architecture_alignment", 
+        "security_compliance_probability", 
+        "technical_debt_risk",
+        "mode_performance_effectiveness",
+        "evolution_success_probability"
+      ],
+      "edgeWeightDecay": 0.01,
+      "beliefConvergenceThreshold": 0.95,
+      "evidenceDecayRate": 0.02,
+      "performanceIntegration": {
+        "enabled": true,
+        "performanceBeliefWeight": 0.3,
+        "evolutionSuccessTracking": true,
+        "modeEffectivenessMonitoring": true
+      },
+      "pruningRules": {
+        "weakEdgeThreshold": 0.3, 
+        "consolidateSimilarNodes": true, 
+        "similarityThreshold": 0.8,
+        "preservePerformanceEdges": true
+      }
+    },
+    "temporalPatterns": {
+      "maxActivePatterns": 7,
+      "detectionWindow": "2h",
+      "confidenceThreshold": 0.75,
+      "frequencyThreshold": 2,
+      "patternTypes": [
+        "sequential_dependency", 
+        "development_flow", 
+        "coordination_protocol", 
+        "success_pattern",
+        "performance_degradation",
+        "optimization_cycle",
+        "evolution_effectiveness"
+      ],
+      "performancePatterns": {
+        "enabled": true,
+        "degradationThreshold": 0.3,
+        "improvementThreshold": 0.15,
+        "trendWindow": "24h"
+      },
+      "escalationRules": {
+        "stalled_task": {
+          "condition": "high_priority_signal persists > 2h", 
+          "action": "orchestrator_intervention"
+        },
+        "coordination_deadlock": {
+          "condition": "coordination_signals stalled > 1h", 
+          "action": "conflict_resolution"
+        },
+        "size_overflow": {
+          "condition": "pheromone_file_size > 480 lines", 
+          "action": "emergency_compression"
+        },
+        "performance_degradation": {
+          "condition": "mode_performance_degraded signals >= 3 within 24h",
+          "action": "evolution_trigger_activation"
+        },
+        "evolution_opportunity": {
+          "condition": "optimization_opportunity_identified signals >= 2 within 12h",
+          "action": "metagenesis_consultation"
+        },
+        "repeated_failures": {
+          "condition": "task_execution_failed for same mode >= 2 within 6h",
+          "action": "immediate_evolution_consideration"
+        }
+      }
+    },
+    "stigmergicLearning": {
+      "maxActiveSequences": 7,
+      "maxKnowledgeNodes": 18,
+      "reinforcementRate": 0.1,
+      "decayRate": 0.05,
+      "confidenceThreshold": 0.8,
+      "performanceLearning": {
+        "enabled": true,
+        "successPatternReinforcement": 0.15,
+        "failurePatternPenalty": 0.1,
+        "evolutionOutcomeTracking": true,
+        "baselineAdaptation": true
+      },
+      "compressionRules": {
+        "consolidateSimilarSequences": true, 
+        "pruneWeakConnections": true, 
+        "strengthThreshold": 0.5,
+        "preservePerformanceSequences": true
+      }
+    },
+    "emergentBehavior": {
+      "complexityThreshold": 0.7,
+      "sustainabilityWindow": "30m",
+      "interventionThreshold": 0.85,
+      "maxTrackedBehaviors": 5,
+      "performanceBehaviors": {
+        "enabled": true,
+        "trackEfficiencyPatterns": true,
+        "trackEvolutionAdaptation": true,
+        "trackOptimizationSuccess": true
+      }
+    },
+    "performanceMetrics": {
+      "interpretationAccuracy": {
+        "threshold": 0.9, 
+        "window": "1h"
+      },
+      "patternDetectionEffectiveness": {
+        "threshold": 0.8, 
+        "window": "4h"
+      },
+      "coordinationSuccessRate": {
+        "threshold": 0.85, 
+        "window": "2h"
+      },
+      "compressionEfficiency": {
+        "threshold": 0.8, 
+        "window": "30m"
+      },
+      "evolutionTriggerAccuracy": {
+        "threshold": 0.85,
+        "window": "6h",
+        "measureImprovement": true
+      },
+      "performanceSignalRelevance": {
+        "threshold": 0.8,
+        "window": "12h",
+        "falsePositiveRate": 0.1
+      },
+      "modeEvolutionEffectiveness": {
+        "threshold": 0.7,
+        "measurementWindow": "72h",
+        "sustainabilityCheck": "168h"
+      }
+    },
+    "adaptiveLearning": {
+      "enabled": true,
+      "learningRate": 0.05,
+      "adaptationTriggers": {
+        "performanceImprovement": {
+          "threshold": 0.2,
+          "reinforcementMultiplier": 1.5
+        },
+        "performanceDegradation": {
+          "threshold": -0.15,
+          "correctionMultiplier": 2.0
+        },
+        "evolutionSuccess": {
+          "threshold": 0.25,
+          "learningBoost": 1.3
+        }
+      },
+      "knowledgeTransfer": {
+        "enabled": true,
+        "crossModePatterns": true,
+        "evolutionLessons": true,
+        "optimizationStrategies": true
+      }
+    }
+  },
+  "performanceIntelligenceIntegration": {
+    "bayesianPerformanceNodes": {
+      "mode_performance_effectiveness": {
+        "description": "Overall effectiveness of individual modes",
+        "evidenceSources": ["task_completion_rates", "iteration_counts", "failure_frequencies"],
+        "updateFrequency": "task_completion",
+        "influenceWeight": 0.25
+      },
+      "evolution_success_probability": {
+        "description": "Likelihood of successful mode evolution outcomes",
+        "evidenceSources": ["evolution_effectiveness_measured", "performance_improvement_trends"],
+        "updateFrequency": "evolution_completion",
+        "influenceWeight": 0.2
+      }
+    },
+    "performancePatternRecognition": {
+      "degradationSequences": {
+        "pattern": ["baseline_established", "performance_decline", "threshold_exceeded"],
+        "confidence": 0.8,
+        "actionTrigger": "mode_performance_degraded"
+      },
+      "improvementCycles": {
+        "pattern": ["optimization_identified", "evolution_applied", "performance_measured"],
+        "confidence": 0.85,
+        "reinforcement": "positive_learning"
+      },
+      "failureRecurrence": {
+        "pattern": ["task_failed", "retry_attempt", "similar_failure"],
+        "confidence": 0.9,
+        "urgency": "high",
+        "actionTrigger": "evolution_trigger_activated"
+      }
+    },
+    "learningFromEvolution": {
+      "preEvolutionBaseline": {
+        "capture": true,
+        "metrics": ["completion_time", "success_rate", "iteration_count", "resource_usage"],
+        "retentionPeriod": "30d"
+      },
+      "postEvolutionTracking": {
+        "measurementWindow": "72h",
+        "sustainabilityCheck": "168h",
+        "regressionDetection": true,
+        "improvementValidation": true
+      },
+      "evolutionKnowledgeBase": {
+        "successfulEvolutions": {
+          "trackPatterns": true,
+          "extractReusableStrategies": true,
+          "crossModeApplication": true
+        },
+        "failedEvolutions": {
+          "analyzeFailureCauses": true,
+          "preventSimilarFailures": true,
+          "learnFromMistakes": true
+        }
+      }
+    }
+  }
+}
