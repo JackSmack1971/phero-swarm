@@ -1,0 +1,152 @@
+{
+  "pheromoneFile": ".pheromone",
+  "version": "2.2.0-performance-enabled",
+  "configMode": "hierarchical_dynamic",
+  "coreConfig": {
+    "targetFileSize": {"maxLines": 500, "maxActiveSignals": 25, "compressionThreshold": 400},
+    "evaporationRates": {"default": 0.05, "meta": 0.01, "state": 0.03, "need": 0.08, "problem": 0.02, "coordination": 0.12, "intelligence": 0.10, "evolution": 0.005, "narrative": 0.15, "operational": 0.25, "consolidated": 0.02, "performance": 0.04},
+    "signalPruneThreshold": 0.15,
+    "explorationRate": 0.02
+  },
+  "compressionProfile": "aggressive",
+  "signalCategories": {
+    "meta": ["project_compass", "agent_heartbeat", "system_bootstrapped", "orchestrator_coordination_state", "system_health_summary"],
+    "state": ["project_initialization_complete", "framework_scaffolding_complete", "feature_specification_complete", "feature_lifecycle_complete"],
+    "need": ["framework_scaffolding_needed", "feature_ready_for_coding", "human_review_requested"],
+    "problem": ["task_execution_failed", "integration_conflict_detected", "security_concern_identified", "size_overflow_detected"],
+    "coordination": ["orchestrator_handshake_offered", "peer_coordination_established"],
+    "intelligence": ["pattern_detected", "collective_intelligence_insight", "intelligence_metrics_summary"],
+    "evolution": ["evolution_proposed_by_metagenesis", "evolution_applied_successfully", "evolution_trigger_activated"],
+    "operational": ["task_delegated", "document_created", "workflow_state_summary"],
+    "consolidated": ["feature_lifecycle_complete", "peer_coordination_established", "intelligence_metrics_summary"],
+    "performance": ["mode_performance_degraded", "agent_inefficiency_detected", "optimization_opportunity_identified", "performance_baseline_established", "evolution_effectiveness_measured"]
+  },
+  "signalPriorities": {
+    "project_compass": 10.0, 
+    "system_bootstrapped": 9.0, 
+    "task_execution_failed": 8.5, 
+    "integration_conflict_detected": 8.0, 
+    "security_concern_identified": 8.5, 
+    "size_overflow_detected": 8.0, 
+    "mode_performance_degraded": 7.5,
+    "evolution_trigger_activated": 7.0,
+    "feature_lifecycle_complete": 7.0, 
+    "human_review_requested": 7.0, 
+    "peer_coordination_established": 6.0,
+    "optimization_opportunity_identified": 6.5,
+    "agent_inefficiency_detected": 6.0,
+    "performance_baseline_established": 5.0,
+    "evolution_effectiveness_measured": 5.5,
+    "default": 1.0
+  },
+  "performanceThresholds": {
+    "taskCompletionTime": {
+      "warning": "30m",
+      "critical": "60m"
+    },
+    "failureRate": {
+      "warning": 0.2,
+      "critical": 0.4
+    },
+    "iterationCount": {
+      "warning": 5,
+      "critical": 8
+    },
+    "debuggingCycles": {
+      "warning": 2,
+      "critical": 4
+    },
+    "tokenLimitHits": {
+      "warning": 1,
+      "critical": 3
+    },
+    "partialCompletions": {
+      "warning": 2,
+      "critical": 4
+    }
+  },
+  "evolutionConfig": {
+    "triggerConditions": {
+      "performance_degradation_pattern": {
+        "minOccurrences": 3,
+        "timeWindow": "24h",
+        "threshold": 0.6
+      },
+      "repeated_failure_pattern": {
+        "minOccurrences": 2,
+        "timeWindow": "12h",
+        "sameMode": true
+      },
+      "inefficiency_detection": {
+        "minOccurrences": 3,
+        "timeWindow": "48h",
+        "improvementPotential": 0.3
+      }
+    },
+    "cooldownPeriod": "6h",
+    "maxEvolutionsPerMode": 3,
+    "evolutionWindow": "7d"
+  },
+  "interpretationCore": {
+    "approaches": ["keyword_matching", "semantic_matching", "pattern_extraction", "lifecycle_consolidation", "performance_analysis"],
+    "confidenceThresholds": {"minimum": 0.7, "critical": 0.85, "performance": 0.75},
+    "keywordMap": {
+      "INITIALIZATION COMPLETE": "project_initialization_complete",
+      "SCAFFOLDING NEEDED": "framework_scaffolding_needed", 
+      "SPECIFICATION COMPLETE": "feature_specification_complete",
+      "LIFECYCLE COMPLETE": "feature_lifecycle_complete",
+      "HANDSHAKE OFFERED": "orchestrator_handshake_offered",
+      "COORDINATION ESTABLISHED": "peer_coordination_established",
+      "INTEGRATION CONFLICT": "integration_conflict_detected",
+      "PATTERN DETECTED": "pattern_detected",
+      "TASK FAILED": "task_execution_failed",
+      "SECURITY CONCERN": "security_concern_identified",
+      "SIZE OVERFLOW": "size_overflow_detected",
+      "PERFORMANCE DEGRADED": "mode_performance_degraded",
+      "OPTIMIZATION NEEDED": "optimization_opportunity_identified",
+      "INEFFICIENCY DETECTED": "agent_inefficiency_detected",
+      "EVOLUTION TRIGGERED": "evolution_trigger_activated",
+      "BASELINE ESTABLISHED": "performance_baseline_established",
+      "EVOLUTION MEASURED": "evolution_effectiveness_measured"
+    }
+  },
+  "compressionRules": {
+    "immediateArchival": ["agent_heartbeat", "task_delegated", "document_created"],
+    "consolidationPatterns": {
+      "feature_lifecycle": {"sequence": ["feature_specification_complete", "feature_architecture_complete", "feature_implementation_complete"], "result": "feature_lifecycle_complete"},
+      "coordination": {"sequence": ["orchestrator_handshake_offered", "orchestrator_handshake_accepted"], "result": "peer_coordination_established"},
+      "performance_analysis": {"sequence": ["performance_baseline_established", "mode_performance_degraded", "optimization_opportunity_identified"], "result": "evolution_trigger_activated"}
+    },
+    "maxActiveSignals": 25,
+    "emergencyThreshold": 480,
+    "performanceSignalRetention": "7d"
+  },
+  "intelligenceConfig": {
+    "bayesian": {"maxNodes": 8, "maxEdges": 12, "pruneThreshold": 0.3},
+    "patterns": {"maxActive": 5, "confidenceThreshold": 0.75},
+    "learning": {"maxSequences": 5, "maxKnowledgeNodes": 15},
+    "performance": {"trackingEnabled": true, "baselineWindow": "24h", "trendAnalysis": true}
+  },
+  "dynamicConfigPaths": {
+    "detailed": ".swarm/detailed.config.json",
+    "patterns": ".swarm/patterns.config.json", 
+    "intelligence": ".swarm/intelligence.config.json",
+    "coordination": ".swarm/coordination.config.json",
+    "performance": ".swarm/performance.config.json"
+  },
+  "loadStrategy": "on_demand_caching",
+  "configInstructions": {
+    "pheromoneScribe": "Load detailed interpretation logic from dynamicConfigPaths.detailed when processing complex summaries. Load performance config for performance signal analysis. Cache for 1 hour.",
+    "intelligenceOrchestrator": "Load full intelligence config from dynamicConfigPaths.intelligence when optimizing collective systems.",
+    "coordinationOrchestrator": "Load coordination protocols from dynamicConfigPaths.coordination when managing peer relationships.",
+    "metagenesis": "Load performance config from dynamicConfigPaths.performance when analyzing evolution triggers and mode effectiveness.",
+    "fallbackBehavior": "Use coreConfig values if dynamic configs unavailable. Log missing config warnings."
+  },
+  "compressionInstructions": {
+    "priorityRetention": ["project_compass", "security_concern_identified", "integration_conflict_detected", "evolution_trigger_activated", "mode_performance_degraded"],
+    "consolidationTriggers": ["lifecycle_complete", "coordination_established", "health_summary", "performance_analysis_complete"],
+    "archivalStrategy": "immediate_operational_aggressive_consolidation",
+    "emergencyProtocol": "preserve_critical_compress_all_else",
+    "performanceDataRetention": "preserve_recent_performance_trends"
+  }
+}
