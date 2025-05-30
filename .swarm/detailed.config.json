@@ -1,6 +1,8 @@
 {
+  "//_comment": "This configuration file defines interpretation logic, pattern extraction, and consolidation rules. It is EXTREMELY CRITICAL for system integrity and security. Validate against a schema before loading. Regex patterns must be carefully crafted and tested to prevent ReDoS and misinterpretation.",
   "interpretationLogic": {
     "semanticPatterns": {
+      "//_comment_regex": "WARNING: Complex regex patterns can be a source of ReDoS (Regular Expression Denial of Service) or lead to misinterpretation if inputs are not handled carefully. Thoroughly review and test all patterns, especially against potentially malicious natural language summaries.",
       "project_initialization_complete": ["Project initialization completed for {project_name}", "Initial setup finished for project {project_name}", "Foundation established for {project_name}"],
       "framework_scaffolding_needed": ["Framework scaffolding required for {project_name}", "Infrastructure setup needed for {project_name}", "Base framework implementation required"],
       "feature_lifecycle_complete": ["Feature {feature_name} lifecycle completed", "All milestones achieved for {feature_name}", "Complete development cycle finished for {feature_name}"],
@@ -8,7 +10,7 @@
       "integration_conflict_detected": ["Integration conflict between {feature_a} and {feature_b}", "Compatibility issue detected", "Resource conflict during integration"],
       "mode_performance_degraded": [
         "failed due to maximum attempts",
-        "partial completion due to token limit", 
+        "partial completion due to token limit",
         "exceeded iteration count",
         "debugging required repeatedly",
         "multiple debugging cycles",
@@ -60,13 +62,13 @@
     },
     "performanceIndicators": {
       "degradationKeywords": [
-        "failed", "partial completion", "token limit", "maximum attempts", 
-        "debugging required", "inefficient", "suboptimal", "exceeded", 
+        "failed", "partial completion", "token limit", "maximum attempts",
+        "debugging required", "inefficient", "suboptimal", "exceeded",
         "timeout", "error", "restart", "reassignment", "retry"
       ],
       "efficiencyKeywords": [
         "optimization", "improvement", "enhancement", "better approach",
-        "more efficient", "streamlined", "optimized", "refined", 
+        "more efficient", "streamlined", "optimized", "refined",
         "upgraded", "enhanced performance"
       ],
       "timeIndicators": [
@@ -79,6 +81,7 @@
       ]
     },
     "patternExtraction": {
+      "//_comment_regex": "WARNING: Complex regex patterns can be a source of ReDoS. Test thoroughly.",
       "featureNamePattern": "(?:feature|module|component)\\s+['\"]?([A-Za-z0-9_\\-\\s]+)['\"]?",
       "agentNamePattern": "@([A-Za-z0-9_\\-]+)",
       "filePathPattern": "(?:path|file|document|at|saved at|located at)\\s*[:=\\-\\s]*['\"]?((?:[a-zA-Z]:)?(?:[/\\\\][\\w\\s.-]+)*[/\\\\]?[\\w\\s.-]+\\.[a-zA-Z0-9]+)['\"]?",
@@ -101,7 +104,7 @@
         "triggerSequence": ["orchestrator_handshake_offered", "orchestrator_handshake_accepted"],
         "consolidateToType": "peer_coordination_established",
         "timeWindowMinutes": 30,
-        "preserveData": ["coordination_id", "participants", "outcome"],
+        "preserveData": ["coordination_id", "participants", "outcome", "authentication_status"],
         "requireSameCoordinationId": true
       },
       "performanceAnalysis": {
@@ -167,6 +170,7 @@
       "performanceDataRetention": "30d"
     },
     "evolutionAnalysis": {
+      "//_comment_security": "Inputs to evolution analysis (e.g., from performance metrics) MUST be validated for integrity to prevent malicious influence on agent evolution.",
       "triggerPatterns": {
         "repeated_failures": {
           "pattern": "(?:failed|error|unsuccessful).*(?:same|similar|repeated)",
