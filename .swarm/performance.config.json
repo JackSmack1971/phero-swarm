@@ -1,4 +1,5 @@
 {
+  "//_comment": "This configuration file defines performance monitoring and evolution triggers. It is CRITICAL for system stability and optimization. Validate against a schema before loading. Ensure data integrity for metrics feeding evolution.",
   "performanceMonitoring": {
     "trackingEnabled": true,
     "baselineWindow": "24h",
@@ -58,6 +59,7 @@
       }
     },
     "modeSpecificConfig": {
+      "//_comment_security_evolution": "Evolution triggers are security-sensitive. Ensure the data influencing these triggers is validated and authentic to prevent malicious evolution.",
       "coder-test-driven": {
         "primaryMetrics": ["completion_time", "iteration_count", "debugging_cycles"],
         "customThresholds": {
@@ -117,6 +119,7 @@
     }
   },
   "evolutionTriggers": {
+    "//_comment_security": "Global evolution triggers rely on aggregated performance data. The integrity of this data is paramount to prevent unwanted or malicious evolution.",
     "globalTriggers": {
       "performanceDegradation": {
         "enabled": true,
@@ -216,9 +219,10 @@
       "escalationEnabled": true
     },
     "metagenesis": {
+      "//_comment_security_pcp": "MetaGenesis auto-triggering evolution must be based on secure, validated data and employ robust Proof-Carrying Prompts (PCP).",
       "autoTrigger": true,
       "evolutionScope": "targeted",
-      "validationRequired": false
+      "validationRequired": true
     }
   }
 }
