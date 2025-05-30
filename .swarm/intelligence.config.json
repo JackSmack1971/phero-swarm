@@ -1,14 +1,16 @@
 {
+  "//_comment": "This configuration file defines collective intelligence mechanisms. It is CRITICAL for advanced system behavior. Validate against a schema before loading. Ensure inputs to learning and reasoning systems are validated.",
   "collectiveIntelligence": {
     "bayesianNetwork": {
+      "//_comment_security": "Inputs to Bayesian beliefs (evidence) must be validated to prevent manipulation of probabilistic reasoning.",
       "maxNodes": 8,
       "maxEdges": 12,
       "coreBeliefs": [
-        "project_success_probability", 
-        "timeline_adherence", 
-        "quality_trajectory", 
-        "architecture_alignment", 
-        "security_compliance_probability", 
+        "project_success_probability",
+        "timeline_adherence",
+        "quality_trajectory",
+        "architecture_alignment",
+        "security_compliance_probability",
         "technical_debt_risk",
         "mode_performance_effectiveness",
         "evolution_success_probability"
@@ -23,21 +25,22 @@
         "modeEffectivenessMonitoring": true
       },
       "pruningRules": {
-        "weakEdgeThreshold": 0.3, 
-        "consolidateSimilarNodes": true, 
+        "weakEdgeThreshold": 0.3,
+        "consolidateSimilarNodes": true,
         "similarityThreshold": 0.8,
         "preservePerformanceEdges": true
       }
     },
     "temporalPatterns": {
+      "//_comment_security": "Temporal pattern detection relies on accurate and timely signal data. Compromised signals can lead to incorrect pattern recognition.",
       "maxActivePatterns": 7,
       "detectionWindow": "2h",
       "confidenceThreshold": 0.75,
       "frequencyThreshold": 2,
       "patternTypes": [
-        "sequential_dependency", 
-        "development_flow", 
-        "coordination_protocol", 
+        "sequential_dependency",
+        "development_flow",
+        "coordination_protocol",
         "success_pattern",
         "performance_degradation",
         "optimization_cycle",
@@ -51,15 +54,15 @@
       },
       "escalationRules": {
         "stalled_task": {
-          "condition": "high_priority_signal persists > 2h", 
+          "condition": "high_priority_signal persists > 2h",
           "action": "orchestrator_intervention"
         },
         "coordination_deadlock": {
-          "condition": "coordination_signals stalled > 1h", 
+          "condition": "coordination_signals stalled > 1h",
           "action": "conflict_resolution"
         },
         "size_overflow": {
-          "condition": "pheromone_file_size > 480 lines", 
+          "condition": "pheromone_file_size > 480 lines",
           "action": "emergency_compression"
         },
         "performance_degradation": {
@@ -77,6 +80,7 @@
       }
     },
     "stigmergicLearning": {
+      "//_comment_security": "Stigmergic learning reinforces behaviors based on environmental signals. The integrity of these signals is crucial for beneficial learning.",
       "maxActiveSequences": 7,
       "maxKnowledgeNodes": 18,
       "reinforcementRate": 0.1,
@@ -90,8 +94,8 @@
         "baselineAdaptation": true
       },
       "compressionRules": {
-        "consolidateSimilarSequences": true, 
-        "pruneWeakConnections": true, 
+        "consolidateSimilarSequences": true,
+        "pruneWeakConnections": true,
         "strengthThreshold": 0.5,
         "preservePerformanceSequences": true
       }
@@ -110,19 +114,19 @@
     },
     "performanceMetrics": {
       "interpretationAccuracy": {
-        "threshold": 0.9, 
+        "threshold": 0.9,
         "window": "1h"
       },
       "patternDetectionEffectiveness": {
-        "threshold": 0.8, 
+        "threshold": 0.8,
         "window": "4h"
       },
       "coordinationSuccessRate": {
-        "threshold": 0.85, 
+        "threshold": 0.85,
         "window": "2h"
       },
       "compressionEfficiency": {
-        "threshold": 0.8, 
+        "threshold": 0.8,
         "window": "30m"
       },
       "evolutionTriggerAccuracy": {
