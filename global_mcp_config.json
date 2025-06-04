@@ -1,0 +1,42 @@
+{
+  "mcpServers": {
+    "perplexity-ask": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "server-perplexity-ask"
+      ],
+      "env": {
+        "PERPLEXITY_API_KEY": "YOUR_PERPLEXITY_API_KEY"
+      },
+      "alwaysAllow": [
+        "perplexity_ask"
+      ]
+    },
+    "toolbox": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@smithery/toolbox",
+        "--key",
+        "YOUR_SMITHERY_API_KEY",
+        "--profile",
+        "YOUR_PROFILE_SLUG"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
+      "alwaysAllow": [
+        "resolve-library-id",
+        "perplexity_ask",
+        "get-library-docs"
+      ]
+    }
+  }
+}
