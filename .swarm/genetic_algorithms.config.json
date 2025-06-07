@@ -1,0 +1,129 @@
+{
+  "//_comment": "Genetic algorithm configuration for evolutionary agent enhancement and capability optimization",
+  "geneticAlgorithmFramework": {
+    "populationConfiguration": {
+      "populationSize": 16,
+      "eliteSize": 4,
+      "diversityMaintenance": true,
+      "nicheFormation": true,
+      "minimumDiversity": 0.3
+    },
+    "selectionMethods": {
+      "primarySelection": "tournament_selection",
+      "tournamentSize": 4,
+      "selectionPressure": 0.8,
+      "fitnessSharing": true,
+      "multiObjectiveSelection": "nsga_ii"
+    },
+    "crossoverOperations": {
+      "crossoverProbability": 0.85,
+      "crossoverMethods": [
+        {
+          "method": "uniform_crossover",
+          "probability": 0.4,
+          "applicableTo": ["instruction_blocks", "parameter_sets"]
+        },
+        {
+          "method": "semantic_crossover",
+          "probability": 0.6,
+          "applicableTo": ["role_definitions", "custom_instructions"]
+        }
+      ],
+      "adaptiveCrossover": true,
+      "contextPreservation": true
+    },
+    "mutationOperations": {
+      "mutationProbability": 0.25,
+      "adaptiveMutation": true,
+      "mutationMethods": [
+        {
+          "method": "instruction_refinement",
+          "probability": 0.3,
+          "scope": "local_optimization"
+        },
+        {
+          "method": "capability_enhancement",
+          "probability": 0.4,
+          "scope": "feature_addition"
+        },
+        {
+          "method": "parameter_tuning",
+          "probability": 0.3,
+          "scope": "performance_optimization"
+        }
+      ],
+      "mutationRateAdaptation": {
+        "enabled": true,
+        "increaseFactor": 1.2,
+        "decreaseFactor": 0.9,
+        "performanceThreshold": 0.1
+      }
+    }
+  },
+  "fitnessEvaluation": {
+    "fitnessFunction": {
+      "multiObjective": true,
+      "objectives": [
+        {
+          "name": "task_completion_efficiency",
+          "weight": 0.3,
+          "optimization": "maximize",
+          "measurement": "completion_time_inverse"
+        },
+        {
+          "name": "solution_quality",
+          "weight": 0.25,
+          "optimization": "maximize",
+          "measurement": "quality_score"
+        },
+        {
+          "name": "error_resilience",
+          "weight": 0.2,
+          "optimization": "maximize", 
+          "measurement": "error_recovery_rate"
+        },
+        {
+          "name": "resource_efficiency",
+          "weight": 0.15,
+          "optimization": "maximize",
+          "measurement": "token_efficiency"
+        },
+        {
+          "name": "adaptability",
+          "weight": 0.1,
+          "optimization": "maximize",
+          "measurement": "context_adaptation_score"
+        }
+      ],
+      "aggregationMethod": "weighted_sum",
+      "normalizationStrategy": "min_max_scaling"
+    },
+    "performanceMetrics": {
+      "realTimeEvaluation": true,
+      "historicalPerformanceWeight": 0.3,
+      "recentPerformanceWeight": 0.7,
+      "evaluationWindow": "14d",
+      "minimumSampleSize": 5
+    }
+  },
+  "evolutionaryStrategies": {
+    "coevolution": {
+      "enabled": true,
+      "cooperativeEvolution": true,
+      "competitiveEvolution": false,
+      "crossSpeciesInteraction": true
+    },
+    "speciation": {
+      "enabled": true,
+      "species_threshold": 0.6,
+      "species_compatibility": "behavioral_similarity",
+      "interSpeciesCrossover": 0.1
+    },
+    "islandModel": {
+      "enabled": false,
+      "numberOfIslands": 4,
+      "migrationRate": 0.05,
+      "migrationInterval": 10
+    }
+  }
+}
