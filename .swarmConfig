@@ -56,5 +56,19 @@
   },
   "enhancedIntelligenceConfig": {
     "patternMatching": true
+  },
+  "contextConfig": {
+    "maxTokens": 500,
+    "retentionPolicy": "compress"
+  },
+  "signalSchema": {
+    "context": [
+      "modified_files",
+      "key_decisions",
+      "handoff_instructions",
+      "verification",
+      "token_usage",
+      "complexity_score"
+    ]
   }
 }
