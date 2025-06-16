@@ -1,0 +1,84 @@
+{
+  "signals": [
+    {
+      "id": "project-compass-001",
+      "signalType": "project_compass",
+      "target": "project_guidance",
+      "category": "compass",
+      "strength": 10.0,
+      "message": "Project blueprint loaded",
+      "context": {
+        "modified_files": ["@docs/NewProject_Alpha_Blueprint.md"],
+        "key_decisions": ["adopt async architecture"],
+        "handoff_instructions": "validate blueprint feasibility",
+        "verification": {"tests_passed": true},
+        "token_usage": 120,
+        "complexity_score": 5
+      }
+    },
+    {
+      "id": "framework-scaffolding-needed-001",
+      "signalType": "framework_scaffolding_needed",
+      "target": "coder-test-driven",
+      "category": "need",
+      "strength": 8.0,
+      "message": "Framework scaffolding required",
+      "context": {
+        "modified_files": [],
+        "key_decisions": ["use fastapi"],
+        "handoff_instructions": "generate project skeleton",
+        "verification": {"tests_passed": false},
+        "token_usage": 60,
+        "complexity_score": 4
+      }
+    },
+    {
+      "id": "feature-spec-complete-001",
+      "signalType": "feature_specification_complete",
+      "target": "all_agents",
+      "category": "state",
+      "strength": 7.5,
+      "message": "Feature specification completed",
+      "context": {
+        "modified_files": ["@specs/feature_spec.md"],
+        "key_decisions": ["coverage targets set"],
+        "handoff_instructions": "start implementation",
+        "verification": {"code_quality": "ok"},
+        "token_usage": 90,
+        "complexity_score": 3
+      }
+    },
+    {
+      "id": "integration-conflict-detected-001",
+      "signalType": "integration_conflict_detected",
+      "target": "orchestrator",
+      "category": "block",
+      "strength": 9.0,
+      "message": "Integration conflict detected in module API",
+      "context": {
+        "modified_files": ["@src/api.py"],
+        "key_decisions": ["rollback integration"],
+        "handoff_instructions": "resolve merge issues",
+        "verification": {"security_scan": "pending"},
+        "token_usage": 30,
+        "complexity_score": 6
+      }
+    },
+    {
+      "id": "peer-coordination-established-001",
+      "signalType": "peer_coordination_established",
+      "target": "orchestrator_network",
+      "category": "coordinate",
+      "strength": 7.0,
+      "message": "Peer coordination established",
+      "context": {
+        "modified_files": [],
+        "key_decisions": ["notify orchestrators"],
+        "handoff_instructions": "monitor progress",
+        "verification": {},
+        "token_usage": 10,
+        "complexity_score": 2
+      }
+    }
+  ]
+}
