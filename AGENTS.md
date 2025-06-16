@@ -1,403 +1,314 @@
-# 🐜 Phero-Swarm Agent Operational Guide
+## Project Overview
 
-## Project Overview: Digital Stigmergy Coordination System
+This is a **Phero-Swarm AI agent coordination framework** that uses digital stigmergy (inspired by ant pheromone trails) to coordinate specialized AI agents through environmental modification rather than direct communication. The system transforms individual AI assistance into coordinated swarm intelligence for autonomous software development.
 
-**CRITICAL UNDERSTANDING**: This is not a traditional codebase. You are working within a **digital stigmergy system** where agents coordinate through environmental modification (`.pheromone` file) rather than direct communication. Your role is specialized, and coordination happens through pheromone signals.
+## Critical System Files - HANDLE WITH EXTREME CARE
 
-### Core Principles
-- **Environmental Coordination**: All agent coordination happens via `.pheromone` file updates
-- **Specialized Roles**: Each agent has focused responsibilities defined in `.ROOMODES`
-- **Human-Readable Output**: All summaries and documentation must be comprehensible to humans
-- **Security First**: All inputs must be validated; file system access is strictly controlled
-- **Context Preservation**: Critical information must survive agent handoffs
+### Primary Coordination Files
+- **`.pheromone`** - THE COORDINATION NEXUS. This JSON file contains all coordination signals. NEVER write to it directly without using the PheromoneHandler class. Any corruption breaks the entire coordination system.
+- **`.roomodes`** - Agent mode definitions. Modifications require system restart.
+- **`.swarmConfig`** - Core swarm configuration. Contains signal categories and priorities.
 
----
+### Core Python Modules
+- **`src/traffic_controller.py`** - Routes tasks between agents based on pheromone signals
+- **`src/pheromone_handler.py`** - Safe file operations for .pheromone (if created)
+- **`docs/`** - All project documentation and blueprints
+- **`templates/`** - Standard templates for specifications and architecture
 
-## 🗂️ Repository Structure & Navigation
+## Development Guidelines
 
-### Key Coordination Files
-```
-.pheromone              # Central coordination state (JSON) - READ FIRST
-.swarmConfig           # System configuration and signal definitions  
-.ROOMODES              # Agent role definitions and access controls
-```
+### Pheromone File Operations - CRITICAL SAFETY RULES
 
-### Core System Components
-```
-src/
-├── traffic_controller.py     # Routes tasks based on pheromone signals
-├── context_manager.py        # Preserves context across agent handoffs
-├── pheromone_helpers.py     # Signal creation and validation utilities
-├── security_manager.py      # Input validation and access controls
-└── performance_monitor.py    # System optimization and metrics
-
-templates/
-├── Project_Blueprint_Template.md        # New project structure guide
-├── Feature_Specification_Template.md    # Detailed feature specs
-└── Architecture_Design_Template.md      # System design documentation
-
-docs/
-├── NewProject_Alpha_Blueprint.md        # Blueprint creation guidance
-├── blueprint-generator-system-prompt.md # Security-aware blueprint generation
-└── [project_name]_blueprint.md         # Current project blueprint (if exists)
-
-tests/
-├── test_traffic_controller.py          # Core routing logic tests
-└── integration/                        # End-to-end workflow tests
-```
-
-### Navigation Best Practices
-- **Always read `.pheromone` first** to understand current system state
-- **Check your role in `.ROOMODES`** to understand your access permissions
-- **Review project blueprint** in `docs/` for project-specific context
-- **Use @file_path syntax** for precise file references in summaries
-
----
-
-## 🧪 Pheromone System Usage Guide
-
-### Reading Pheromone Signals
-```bash
-# Always start by understanding current state
-cat .pheromone | jq '.signals[] | select(.category == "need" or .category == "block")'
-```
-
-### Signal Categories & Meanings
-- **compass**: Project-level guidance and blueprints (strength: 10.0)
-- **state**: Completed work and system status (strength: 1.0-7.5)  
-- **need**: Work requiring attention (strength: 5.0-8.0)
-- **block**: Critical issues requiring immediate action (strength: 8.0-9.0)
-- **coordinate**: Cross-agent handoff coordination (strength: 6.0-7.0)
-
-### Creating Pheromone Updates
-**REQUIRED FORMAT** for all agent summaries:
+**NEVER do this:**
 ```python
-# Use pheromone_helpers.py for updates (when available)
+# DON'T - This causes corruption
+with open('.pheromone', 'w') as f:
+    json.dump(data, f)
+```
+
+**ALWAYS do this:**
+```python
+# DO - Use atomic writes with validation
+from pheromone_handler import PheromoneHandler
+handler = PheromoneHandler()
+handler.add_signal(signal_data)
+```
+
+### Signal Structure Standards
+Every pheromone signal MUST have this exact structure:
+```json
 {
-    "signalType": "specific_work_type",
-    "category": "appropriate_category", 
-    "strength": calculated_priority,
-    "message": "Human-readable summary of work completed",
-    "context": {
-        "modified_files": ["list", "of", "files"],
-        "key_decisions": ["important", "choices", "made"],
-        "handoff_instructions": "specific guidance for next agent",
-        "complexity_score": 1-10
-    }
+  "id": "unique-identifier-timestamp",
+  "signalType": "descriptive_signal_type",
+  "category": "compass|state|need|block|coordinate",
+  "strength": 1.0-10.0,
+  "target": "target_agent_slug",
+  "message": "Human-readable description",
+  "timestamp": 1640995200
 }
 ```
 
-### Context Preservation Requirements
-- **File References**: Use exact paths with @mentions: `@src/traffic_controller.py`
-- **Decision Documentation**: Record WHY choices were made, not just WHAT was done
-- **Handoff Context**: Provide specific, actionable guidance for the next agent
-- **Token Awareness**: Keep context summaries under 500 tokens while preserving critical information
+### Agent Mode Guidelines
 
----
+**Each agent mode MUST:**
+1. Read `.pheromone` file at start of every task
+2. Add completion signals when finishing work
+3. Add handoff signals to route to next agent
+4. Use `attempt_completion` with clear next steps
+5. Handle pheromone file corruption gracefully
 
-## 🎭 Agent Role Adherence & Specialization
+**File Access Patterns:**
+- **Read-only agents**: `["read"]` - Can analyze but not modify
+- **Implementation agents**: `["read", "edit"]` - Can modify source code
+- **System agents**: `["read", ["edit", "\\.pheromone$"]]` - Can update coordination
 
-### Understanding Your Role
-1. **Check `.ROOMODES`** for your specific agent definition
-2. **Respect access controls**: Only modify files matching your `fileRegex` patterns
-3. **Stay within tool groups**: Use only the tools granted to your role
-4. **Follow custom instructions**: Your role's specific methodology and constraints
+### Code Quality Standards
 
-### Common Agent Types & Responsibilities
+**Function Guidelines:**
+- Maximum 30 lines per function
+- Use async/await for I/O operations
+- Custom exceptions for error handling
+- No hardcoded credentials or API keys
+- Environment variables for configuration
 
-#### Orchestrators (Coordinators)
-- **traffic-controller**: Route tasks based on pheromone analysis
-- **orchestrator-pheromone-scribe**: Interpret summaries and update state
-- **orchestrator-meta-alignment**: Ensure project alignment with goals
+**Testing Requirements:**
+- Minimum 80% code coverage
+- Tests must pass before any handoff
+- Use pytest framework
+- Test files in `tests/` directory
 
-#### Specialists (Executors)  
-- **coder-test-driven**: Implement features using TDD (max 30 lines per function)
-- **tester-tdd-master**: Create and run comprehensive tests (80% coverage minimum)
-- **debugger-targeted**: Diagnose and fix specific issues
-- **security-validator**: SAST/DAST scanning and threat modeling
-- **performance-optimizer**: Profiling and optimization recommendations
+**File Organization:**
+- Source code in `src/`
+- Documentation in `docs/`
+- Templates in `templates/`
+- Tests in `tests/`
+- Configuration files in project root
 
-#### Support (Documentation & Context)
-- **architect-highlevel-module**: System design and architecture decisions
-- **docs-writer-feature**: Technical documentation and API specs
-- **context-manager**: Maintain context across agent transitions
+## Validation Instructions
 
-### Role Transition Protocol
-When your work is complete:
-1. **Summarize work** in human-readable format
-2. **Update pheromone signals** with context and handoff instructions
-3. **Validate your changes** according to your role's requirements
-4. **Do not assume next agent** - let traffic-controller route appropriately
+### Before Any Code Changes
+```bash
+# 1. Validate pheromone file integrity
+python -m json.tool .pheromone
 
----
+# 2. Run existing tests
+pytest tests/ -v
 
-## 🔒 Security Requirements & Procedures
+# 3. Check system configuration
+python -c "import json; print('✅ Config valid' if json.load(open('.swarmConfig')) else '❌ Config invalid')"
+```
 
-### Input Validation (MANDATORY)
-- **All external inputs** must be validated against schemas before processing
-- **Pheromone updates** must be sanitized to prevent injection attacks
-- **Blueprint data** must follow sanitization procedures from `docs/blueprint-generator-system-prompt.md`
-- **Configuration changes** require schema validation and audit logging
+### After Making Changes
+```bash
+# 1. Validate all JSON files
+find . -name "*.json" -exec python -m json.tool {} \; > /dev/null
 
-### File System Access Controls
-- **Respect fileRegex patterns** defined in your `.ROOMODES` role
-- **Minimum privilege principle**: Only access files necessary for your specific task
-- **No privilege escalation**: Don't attempt to access files outside your permissions
-- **Audit trail**: All file modifications must be logged in pheromone updates
+# 2. Run full test suite
+pytest tests/ --cov=src/ --cov-report=term-missing
 
-### Authentication & Integrity
-- **Agent identity verification** required for peer coordination
-- **Pheromone file integrity** must be maintained (checksums/signatures)
-- **Configuration file validation** against strict schemas
-- **Secure handoff protocols** for sensitive operations
+# 3. Test coordination system
+python src/traffic_controller.py
 
-### Security Escalation
-**Immediately create BLOCK signal** for:
-- Security vulnerabilities discovered in code
-- Potential privilege escalation attempts
-- Input validation failures
-- Suspicious pheromone signal patterns
+# 4. Verify pheromone operations
+python -c "
+from src.pheromone_handler import PheromoneHandler
+h = PheromoneHandler()
+data = h.read_safe()
+print('✅ Pheromone system healthy' if data else '❌ Pheromone corruption detected')
+"
+```
 
----
-
-## ⚙️ Development Workflow & Testing
-
-### Code Implementation Standards
+### Signal Validation
+Before adding any signal to `.pheromone`:
 ```python
-# Required patterns for all code:
-# 1. Functions max 30 lines
-async def process_data(input_data: dict) -> dict:
-    """Process data with comprehensive error handling."""
-    try:
-        # Implementation here (max 30 lines)
-        return result
-    except ValidationError as e:
-        raise CustomValidationError(f"Invalid input: {e}") from e
-
-# 2. Async I/O for all external operations
-async def load_config() -> dict:
-    return await asyncio.to_thread(json.loads, Path(".swarmConfig").read_text())
-
-# 3. Custom exceptions for error handling
-class PheromoneValidationError(Exception):
-    """Raised when pheromone signal validation fails."""
+def validate_signal(signal):
+    required_fields = ['id', 'signalType', 'category', 'strength', 'message']
+    valid_categories = ['compass', 'state', 'need', 'block', 'coordinate']
+    
+    for field in required_fields:
+        assert field in signal, f"Missing required field: {field}"
+    
+    assert signal['category'] in valid_categories, f"Invalid category: {signal['category']}"
+    assert 0.0 <= signal['strength'] <= 10.0, f"Invalid strength: {signal['strength']}"
+    assert len(signal['message']) > 0, "Message cannot be empty"
 ```
 
-### Testing Requirements
-- **Unit tests required** for all new functionality
-- **Minimum 80% code coverage** (enforced by `tester-tdd-master`)
-- **Integration tests** for agent coordination workflows
-- **Security tests** for input validation and access controls
+## Navigation and Context
 
-### Test Execution
+### Project Structure
+```
+phero-swarm/
+├── .pheromone          # Coordination signals (CRITICAL)
+├── .roomodes           # Agent mode definitions
+├── .swarmConfig        # System configuration
+├── src/                # Core system code
+│   ├── traffic_controller.py
+│   └── pheromone_handler.py (if created)
+├── docs/               # Project documentation
+│   ├── *_Blueprint.md
+│   └── architecture.md
+├── templates/          # Standard templates
+├── tests/              # Test suite
+└── README.md
+```
+
+### Understanding the Coordination Flow
+1. **Human** provides concept or task
+2. **Traffic Controller** reads `.pheromone` and routes to appropriate agent
+3. **Specialist Agent** completes task and adds completion signal
+4. **System** automatically routes to next agent based on signals
+5. **Coordination** continues until project completion
+
+### Common Coordination Patterns
+- `compass` signals → **concept-to-blueprint-translator**
+- `need` + "test" → **tester-tdd-master**
+- `need` + "architecture" → **architect-highlevel-module**
+- `need` (general) → **coder-test-driven**
+- `block` signals → **debugger-targeted**
+- Unclear state → **orchestrator-pheromone-scribe**
+
+## Work Presentation Standards
+
+### Git Commit Messages
+Follow this format:
+```
+[agent-slug] Brief description
+
+- Specific change 1
+- Specific change 2
+- Pheromone signals added: signal_type_1, signal_type_2
+
+Files modified:
+- path/to/file1.py
+- path/to/file2.md
+
+Next agent: target-agent-slug
+```
+
+### Pull Request Guidelines
+**Title Format:** `[Phase] Feature: Description`
+**Description Must Include:**
+- Agent coordination summary
+- Pheromone signals timeline
+- Testing verification
+- Next steps for swarm
+
+### Documentation Updates
+- Update relevant `.md` files in `docs/`
+- Add any new agent modes to `.roomodes`
+- Document coordination patterns discovered
+- Include failure scenarios and recovery procedures
+
+## Emergency Procedures
+
+### Pheromone File Corruption Recovery
 ```bash
-# Run tests before creating pheromone updates
-pytest tests/ --cov=src --cov-report=term-missing
-# Coverage must be ≥80% for completion signal
+# 1. Backup corrupted file
+cp .pheromone .pheromone.corrupted
+
+# 2. Create minimal valid structure
+echo '{"signals": [], "metadata": {"created": '$(date +%s)'}}' > .pheromone
+
+# 3. Validate
+python -m json.tool .pheromone
+
+# 4. Add initialization signal
+python -c "
+from src.pheromone_handler import PheromoneHandler
+h = PheromoneHandler()
+h.add_signal({
+    'id': 'emergency-reset-' + str(int(time.time())),
+    'signalType': 'system_recovery',
+    'category': 'compass',
+    'strength': 9.0,
+    'message': 'Emergency recovery - system reset',
+    'timestamp': int(time.time())
+})
+"
 ```
 
-### Quality Gates
-1. **Code Quality**: All linting and type checking must pass
-2. **Test Coverage**: Minimum 80% coverage maintained
-3. **Security Scan**: No critical security findings
-4. **Performance**: No regression beyond 10% of baseline
-
----
-
-## 📋 Work Validation & Review Processes
-
-### Pre-Completion Checklist
-**Before updating pheromone with completion signals**:
-- [ ] All tests pass (`pytest tests/`)
-- [ ] Code quality checks pass (`flake8`, `mypy`)
-- [ ] Security validation complete (input sanitization verified)
-- [ ] Documentation updated (docstrings, README sections)
-- [ ] Context preserved for next agent (handoff instructions clear)
-- [ ] File access stayed within role permissions
-
-### Human Oversight Triggers
-**Create `human_review_requested` signal** when:
-- Architecture decisions affect multiple system components
-- Security changes require compliance validation
-- Performance changes exceed established baselines
-- Complex debugging requires domain expertise
-- Cross-team coordination needed
-
-### Review Documentation
-All major work must include:
-- **Decision Record**: Why specific approaches were chosen
-- **Impact Analysis**: What other components might be affected
-- **Risk Assessment**: Potential issues and mitigation strategies
-- **Next Steps**: Clear guidance for continuation
-
----
-
-## 🔄 Common Workflow Patterns
-
-### Starting Work (Any Agent)
-1. **Read current state**: `cat .pheromone | jq '.signals'`
-2. **Check your role**: Review `.ROOMODES` for your specific permissions
-3. **Load project context**: Read relevant blueprint and architecture docs
-4. **Validate prerequisites**: Ensure dependencies are met
-
-### Blueprint-Driven Development
+### Coordination Deadlock Recovery
 ```bash
-# For new projects, always start with blueprint
-# 1. concept-to-blueprint-translator creates blueprint
-# 2. architect-highlevel-module designs system
-# 3. coder-test-driven implements features
-# 4. tester-tdd-master validates implementation
+# 1. Analyze current state
+python src/traffic_controller.py
+
+# 2. Check for stalled signals
+python -c "
+import json
+data = json.load(open('.pheromone'))
+signals = data.get('signals', [])
+print(f'Active signals: {len(signals)}')
+for s in signals[-3:]:
+    print(f'{s.get(\"category\")}: {s.get(\"message\")}')
+"
+
+# 3. Clear stalled signals if needed
+python -c "
+from src.pheromone_handler import PheromoneHandler
+h = PheromoneHandler()
+h.clear_signals_by_category('coordinate')  # Clear old coordination
+"
+
+# 4. Route to orchestrator for analysis
+# Switch to orchestrator-pheromone-scribe mode manually
 ```
 
-### Issue Resolution Pattern
+### System Health Check
 ```bash
-# For bugs and blocks:
-# 1. debugger-targeted analyzes the problem
-# 2. Specialist agents (security, performance) provide expertise
-# 3. coder-test-driven implements fixes
-# 4. tester-tdd-master validates resolution
+# Run this before starting any major work
+python -c "
+import json, os
+print('🔍 System Health Check')
+print('✅ .pheromone exists' if os.path.exists('.pheromone') else '❌ .pheromone missing')
+try:
+    json.load(open('.pheromone'))
+    print('✅ .pheromone valid JSON')
+except:
+    print('❌ .pheromone corrupted')
+print('✅ .roomodes exists' if os.path.exists('.roomodes') else '❌ .roomodes missing')
+print('✅ .swarmConfig exists' if os.path.exists('.swarmConfig') else '❌ .swarmConfig missing')
+"
 ```
 
-### Context Handoff Pattern
-```markdown
-## Agent Handoff Summary
-**Work Completed**: [Specific accomplishments]
-**Files Modified**: @src/file1.py, @docs/file2.md
-**Key Decisions**: [Important choices made and rationale]
-**Next Agent Context**: [Specific guidance for continuation]
-**Verification Status**: [Tests passed, security validated, etc.]
-```
+## Agent-Specific Guidelines
 
----
+### For Codex/OpenAI Models
+- Always read this AGENTS.md file first
+- Understand the pheromone coordination before making changes
+- Use the validation procedures after any modifications
+- Ask for clarification if coordination state is unclear
+- Test thoroughly before handing off to next agent
 
-## 🚨 Troubleshooting & Error Recovery
+### For Blueprint Generation
+- Use `templates/Project_Blueprint_Template.md`
+- Create comprehensive blueprints in `docs/` folder
+- Add `compass` signal with blueprint location
+- Signal `architect-highlevel-module` for next phase
 
-### Common Issues & Solutions
+### For Implementation
+- Follow TDD principles strictly
+- Keep functions under 30 lines
+- Add completion signals to `.pheromone`
+- Signal `tester-tdd-master` after implementation
 
-#### Pheromone Signal Pollution
-**Symptoms**: Too many low-strength signals, unclear routing
-**Solution**: Use signal consolidation patterns, increase strength thresholds
+### For Testing
+- Require minimum 80% coverage
+- Create test reports in `docs/test_report.md`
+- Signal success/failure appropriately
+- Route to `debugger-targeted` if tests fail
 
-#### Context Loss Between Agents
-**Symptoms**: Repeated work, missing context, unclear handoffs
-**Solution**: Enhance handoff instructions, use @file_path references
+## Success Metrics
 
-#### Infinite Agent Loops
-**Symptoms**: Same signals repeating, no progress
-**Solution**: Add circuit breaker logic, escalate to human review
+The system is working correctly when:
+- ✅ `.pheromone` file remains valid JSON throughout workflow
+- ✅ Agents autonomously hand off to next appropriate agent
+- ✅ All tests pass with adequate coverage
+- ✅ Documentation stays current with changes
+- ✅ No manual intervention required for standard workflows
+- ✅ System can recover gracefully from errors
 
-#### Permission/Access Errors
-**Symptoms**: File access denied, tool restrictions
-**Solution**: Verify role permissions in `.ROOMODES`, use appropriate agent type
+## Remember: This is a Coordination System
 
-### Escalation Procedures
-1. **Technical Issues**: Create BLOCK signal with specific error details
-2. **Security Concerns**: Immediate BLOCK signal + human review request
-3. **Architecture Questions**: Route to `architect-highlevel-module`
-4. **Performance Problems**: Route to `performance-optimizer`
+The power of this system comes from **collective intelligence through environmental coordination**. Each agent contributes to the shared environment (pheromone trails) which guides the behavior of subsequent agents. Maintain this coordination discipline and the swarm will achieve complex goals autonomously.
 
-### Emergency Procedures
-**System-Level Issues**:
-- Backup `.pheromone` file before major changes
-- Validate all configuration changes against schemas
-- Escalate immediately for security violations
-- Request human intervention for architectural decisions
-
----
-
-## 📊 Performance & Optimization Guidelines
-
-### Token Usage Optimization
-- **Context Compression**: Keep summaries under 500 tokens while preserving critical info
-- **Selective File Loading**: Only load files directly relevant to your task
-- **Efficient Pheromone Updates**: Consolidate related signals when possible
-
-### Performance Baselines
-- **Code Implementation**: < 45 minutes per feature component
-- **Test Creation**: < 20 minutes per test suite  
-- **Documentation**: < 15 minutes per API endpoint
-- **Integration**: < 30 minutes per feature pair
-
-### Optimization Triggers
-**Escalate to performance-optimizer when**:
-- Task completion time exceeds baseline by 50%
-- Memory usage grows beyond expected patterns
-- Test execution time increases significantly
-- Pheromone file size grows beyond manageable limits
-
----
-
-## 🎯 Success Metrics & Quality Standards
-
-### Completion Criteria
-**Work is considered complete when**:
-- All tests pass with ≥80% coverage
-- Security validation confirms no critical issues
-- Documentation is updated and human-readable
-- Context is preserved for next agent handoff
-- Pheromone signals accurately reflect system state
-
-### Quality Indicators
-- **Code Quality**: Clean, well-documented, following project patterns
-- **Test Quality**: Comprehensive coverage, meaningful assertions
-- **Documentation Quality**: Clear, accurate, useful for humans
-- **Context Quality**: Next agent can continue work without confusion
-
-### System Health Metrics
-- Signal processing efficiency (signals resolved vs. created)
-- Agent specialization effectiveness (tasks completed successfully)
-- Context preservation quality (handoff success rate)
-- Human intervention frequency (lower is better for routine tasks)
-
----
-
-## 🔧 Quick Reference Commands
-
-```bash
-# Essential operations for any agent
-
-# Read current pheromone state
-cat .pheromone | jq '.signals[] | select(.strength > 5.0)'
-
-# Check system configuration  
-cat .swarmConfig | jq '.signalCategories'
-
-# Your agent role and permissions
-cat .ROOMODES | jq '.customModes[] | select(.slug == "your-agent-name")'
-
-# Run tests before completion
-pytest tests/ --cov=src --cov-report=term-missing
-
-# Validate JSON files
-python -m json.tool .pheromone > /dev/null && echo "Valid"
-
-# Check for security patterns
-grep -r "TODO\|FIXME\|XXX\|HACK" src/ docs/
-```
-
----
-
-## 📚 Learning Resources
-
-### Key Documentation
-- `README.md`: System overview and core concepts
-- `docs/NewProject_Alpha_Blueprint.md`: Blueprint creation patterns
-- `templates/`: Standard templates for different work types
-- `assessment`: Deep analysis of system capabilities and enhancement opportunities
-
-### Understanding Digital Stigmergy
-- Agents communicate through environment modification, not direct messaging
-- Pheromone signals create coordination patterns that emerge naturally
-- Context preservation enables complex multi-agent workflows
-- Human oversight maintains quality and handles edge cases
-
-### Best Practices Evolved From Real Usage
-- Always preserve context for the next agent
-- Validate all inputs and outputs according to security requirements
-- Stay within your specialized role for maximum system efficiency
-- Document decisions and rationale, not just implementation details
-- Escalate appropriately rather than attempting work outside your expertise
-
----
-
-**Remember**: You are part of an intelligent swarm system. Your individual excellence contributes to collective intelligence, but coordination through the pheromone system is what makes the swarm truly powerful. Work with precision, document thoroughly, and trust the system to route work appropriately.
+**When in doubt**: Switch to `orchestrator-pheromone-scribe` mode to analyze coordination state and determine next steps.
