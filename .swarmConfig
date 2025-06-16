@@ -53,5 +53,8 @@
     "human_review_requested": 7.0,
     "peer_coordination_established": 6.0,
     "default": 1.0
+  },
+  "enhancedIntelligenceConfig": {
+    "patternMatching": true
   }
 }
