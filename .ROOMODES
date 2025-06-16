@@ -1,6 +1,14 @@
 {
   "customModes": [
     {
+      "slug": "traffic-controller",
+      "name": "Traffic Controller",
+      "roleDefinition": "Route tasks based on pheromone signals.",
+      "customInstructions": "Read `.pheromone` and dispatch work: `compass` → concept-to-blueprint-translator, implementation `need` → coder-test-driven, testing `need` → tester-tdd-master, `block` → debugger-targeted. Add a `coordinate` signal noting the next agent.",
+      "groups": ["read"],
+      "source": "project"
+    },
+    {
       "slug": "concept-to-blueprint-translator",
       "name": "Concept to Blueprint Translator",
       "roleDefinition": "Translate user concepts into a swarm-ready project blueprint.",
