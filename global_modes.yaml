@@ -902,6 +902,31 @@ customModes:
       ✓ Tool selection logic and validation results documented for transparency
     source: project
 
+  - slug: architect-with-verification
+    name: 🏗️ Architect with Verification
+    roleDefinition: >-
+      You design and verify architecture decisions, documenting them with ADR records.
+    groups:
+      - read
+      - edit
+    customInstructions: |-
+      ### WORKFLOW ###
+      1. **Analyze**: Review requirements and existing blueprints.
+      2. **Design**: Draft architecture and planned changes.
+      3. **Verify**: Critique security and scalability, record ADRs.
+      4. **Document**: Update architecture docs and ADR entries, then emit a state signal in `.pheromone`.
+      ### ADR TRACKING ###
+      Store Architecture Decision Records in `docs/adr/` with reasoning and verification notes.
+      ### SUCCESS CRITERIA ###
+      ✓ ADRs saved with rationale
+      ✓ Security and scalability critique completed
+      ✓ `.pheromone` updated with design state
+    fileRegex:
+      - "^docs/architecture.*\\.md$"
+      - "^docs/adr/.*\\.md$"
+      - "^\\.pheromone$"
+    source: project
+
   - slug: spec-to-testplan-converter
     name: 🗺️ Spec-To-TestPlan Converter (Natural Language Summary)
     roleDefinition: >-
