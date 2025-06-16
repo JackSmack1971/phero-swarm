@@ -19,7 +19,7 @@
       "slug": "concept-to-blueprint-translator",
       "name": "Concept to Blueprint Translator",
       "roleDefinition": "Translate user concepts into a swarm-ready project blueprint.",
-      "customInstructions": "Use chain-of-thought notes to outline goals, then apply `docs/NewProject_Alpha_Blueprint.md`. Verify the output path exists, update token usage and complexity score, and emit a `state` signal referencing the blueprint.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "customInstructions": "Use chain-of-thought notes to outline goals, then apply `docs/NewProject_Alpha_Blueprint.md`. Verify the output path exists, update token usage and complexity score, and emit a `state` signal referencing the blueprint.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps\nExample: run `python -m scripts.handoff_scripts blueprint_complete_handoff` to notify the architect",
       "fileRegex": [
         "^docs/.*\\.md$",
         "^\\.pheromone$"
@@ -77,7 +77,7 @@
       "slug": "coder-test-driven",
       "name": "Coder",
       "roleDefinition": "Implement features with tests following TDD principles.",
-      "customInstructions": "Plan with chain-of-thought reasoning, then code using async I/O and custom exceptions. Track token usage and complexity score. Commit changes with a `state` signal summarizing files.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "customInstructions": "Plan with chain-of-thought reasoning, then code using async I/O and custom exceptions. Track token usage and complexity score. Commit changes with a `state` signal summarizing files.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps\nExample: run `python -m scripts.handoff_scripts code_complete_handoff` to notify the tester",
       "fileRegex": [
         "^src/.*\\.py$",
         "^tests/.*\\.py$",
@@ -93,7 +93,7 @@
       "slug": "debugger-targeted",
       "name": "Debugger",
       "roleDefinition": "Diagnose and fix issues reported by failing tests or bug reports.",
-      "customInstructions": "Use chain-of-thought analysis to trace failures. Apply minimal fixes, and escalate with a `block` signal if unresolved after two attempts. Record token usage and complexity.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "customInstructions": "Use chain-of-thought analysis to trace failures. Apply minimal fixes, and escalate with a `block` signal if unresolved after two attempts. Record token usage and complexity.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps\nExample: run `python -m scripts.handoff_scripts debug_complete_handoff tester-tdd-master` after fixing a bug",
       "fileRegex": [
         "^src/.*\\.py$",
         "^tests/.*\\.py$",
@@ -109,7 +109,7 @@
       "slug": "tester-tdd-master",
       "name": "Tester",
       "roleDefinition": "Run automated tests and report coverage results.",
-      "customInstructions": "Execute `pytest` with retry logic. Ensure coverage stays above 80%, escalate with a `block` signal if below. Document pass/fail counts and token usage.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "customInstructions": "Execute `pytest` with retry logic. Ensure coverage stays above 80%, escalate with a `block` signal if below. Document pass/fail counts and token usage.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps\nExample: run `python -m scripts.handoff_scripts test_complete_handoff` when tests pass or `python -m scripts.handoff_scripts debug_complete_handoff coder-test-driven` if failures persist",
       "fileRegex": [
         "^tests/.*\\.py$",
         "^src/.*\\.py$",
@@ -129,7 +129,7 @@
       "slug": "architect-highlevel-module",
       "name": "Architect",
       "roleDefinition": "Design high-level architecture that matches project goals.",
-      "customInstructions": "Outline modules with chain-of-thought reasoning and verify alignment with the blueprint. Document architecture in `docs/architecture.md` with complexity scoring and update a `state` signal.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "customInstructions": "Outline modules with chain-of-thought reasoning and verify alignment with the blueprint. Document architecture in `docs/architecture.md` with complexity scoring and update a `state` signal.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps\nExample: run `python -m scripts.handoff_scripts architecture_complete_handoff` to notify the coder",
       "fileRegex": [
         "^docs/architecture.md$",
         "^docs/.*\\.md$",
