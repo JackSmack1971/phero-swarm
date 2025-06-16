@@ -1,7 +1,14 @@
 import asyncio
 import json
+import os
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+try:
+    from src.pheromone_handler import PheromoneHandler, PheromoneHandlerError
+except ImportError:  # pragma: no cover - fallback for direct execution
+    from pheromone_handler import PheromoneHandler, PheromoneHandlerError
 
 
 class RoutingError(Exception):
@@ -9,13 +16,8 @@ class RoutingError(Exception):
 
 
 WORKLOAD_CACHE: Dict[str, int] = {}
-METRICS_FILE = ".traffic_metrics.json"
-CONTEXT_FILE = ".traffic_context.json"
-SPECIALIST_MAP = {
-    "security": "security-validator",
-    "performance": "performance-optimizer",
-    "test": "tester-tdd-master",
-}
+METRICS_FILE = os.getenv("METRICS_FILE", ".traffic_metrics.json")
+CONTEXT_FILE = os.getenv("CONTEXT_FILE", ".traffic_context.json")
 
 
 async def load_json_file(path: str) -> Dict[str, Any]:
@@ -71,32 +73,23 @@ def least_busy_agent(candidates: List[str]) -> str:
     return chosen
 
 
-def specialist_route(signal: Dict[str, Any]) -> Optional[str]:
-    """Route block signals to specialists when appropriate."""
-    if signal.get("category") != "block" or signal.get("strength", 0) <= 8.0:
-        return None
-    text = f"{signal.get('signalType','')} {signal.get('message','')}".lower()
-    for key, agent in SPECIALIST_MAP.items():
-        if key in text:
-            return agent
-    return SPECIALIST_MAP.get("test") if "test" in text else None
+async def add_coordination_signal(handler: PheromoneHandler, agent: str) -> None:
+    """Record routing decision."""
+    signal = {
+        "id": f"coord-{int(time.time())}",
+        "signalType": "routing_decision",
+        "category": "coordinate",
+        "strength": 5.0,
+        "target": agent,
+        "message": f"Routed to {agent}",
+        "timestamp": int(time.time()),
+    }
+    try:
+        await handler.add_signal(signal)
+    except PheromoneHandlerError as exc:
+        raise RoutingError("Failed to update pheromone") from exc
 
 
-def circuit_breaker(metrics: Dict[str, Any], agent: str) -> bool:
-    """Check if agent should be temporarily disabled."""
-    stat = metrics.get(agent, {})
-    failures = stat.get("failures", 0)
-    total = stat.get("total", 0)
-    return total > 5 and failures / total > 0.5
-
-
-def update_routing_history(metrics: Dict[str, Any], context_id: str, agent: str) -> bool:
-    """Record routing history and detect potential loops."""
-    history = metrics.setdefault("routing_history", {}).setdefault(context_id, [])
-    history.append(agent)
-    if len(history) > 5:
-        history.pop(0)
-    return len(history) >= 3 and len(set(history[-3:])) == 1
 
 
 async def load_config(config_path: str) -> Dict[str, Any]:
@@ -105,73 +98,57 @@ async def load_config(config_path: str) -> Dict[str, Any]:
 
 
 async def load_pheromone(config: Dict[str, Any]) -> Dict[str, Any]:
-    """Load pheromone state using config path."""
-    pheromone_path = config.get("pheromoneFile", ".pheromone")
-    return await load_json_file(pheromone_path)
+    """Load pheromone using PheromoneHandler."""
+    path = config.get("pheromoneFile", ".pheromone")
+    handler = PheromoneHandler(path)
+    try:
+        data = await handler.read_safe()
+    except PheromoneHandlerError as exc:
+        raise RoutingError("Failed to read pheromone") from exc
+    return data or {"signals": []}
 
 
-def analyze_signal(signal: Dict[str, Any], ctx: Dict[str, str], metrics: Dict[str, Any]) -> Optional[str]:
-    """Return preferred agent for a single signal."""
-    context_id = signal.get("context", {}).get("id")
-    if context_id and ctx.get(context_id) and not circuit_breaker(metrics, ctx[context_id]):
-        return ctx[context_id]
-
-    agent = specialist_route(signal)
-    if agent:
-        if not circuit_breaker(metrics, agent):
-            if context_id:
-                ctx[context_id] = agent
-            return agent
-
+def analyze_signal(signal: Dict[str, Any]) -> Optional[str]:
+    """Return preferred agent for a signal."""
+    text = f"{signal.get('signalType','')} {signal.get('message','')}".lower()
     category = signal.get("category")
-    stype = signal.get("signalType", "").lower()
-    msg = signal.get("message", "").lower()
     if category == "compass":
-        agent = "concept-to-blueprint-translator"
-        if context_id:
-            ctx[context_id] = agent
-        return agent
+        return "concept-to-blueprint-translator"
     if category == "need":
-        agent = "tester-tdd-master" if "test" in stype or "test" in msg else "coder-test-driven"
-        if context_id:
-            ctx[context_id] = agent
-        return agent
+        if "test" in text:
+            return "tester-tdd-master"
+        if "architecture" in text:
+            return "architect-highlevel-module"
+        return "coder-test-driven"
     if category == "block":
-        agent = "debugger-targeted"
-        if context_id:
-            ctx[context_id] = agent
-        return agent
+        return "debugger-targeted"
     return None
 
 
-async def determine_route(pheromone: Dict[str, Any]) -> str:
-    """Determine next agent considering context and load."""
-    metrics = await load_metrics()
-    ctx = await load_context_cache()
-    for signal in pheromone.get("signals", []):
-        agent = analyze_signal(signal, ctx, metrics)
+async def determine_route(pheromone: Dict[str, Any], handler: Optional[PheromoneHandler] | None = None) -> str:
+    """Return next agent and record coordination."""
+    signals = sorted(
+        pheromone.get("signals", []),
+        key=lambda s: s.get("strength", 0),
+        reverse=True,
+    )
+    for sig in signals:
+        agent = analyze_signal(sig)
         if agent:
-            if circuit_breaker(metrics, agent):
-                fallback = "coder-test-driven" if agent == "tester-tdd-master" else "debugger-targeted"
-                await save_context_cache(ctx)
-                return least_busy_agent([fallback])
-            cid = signal.get("context", {}).get("id")
-            if cid and update_routing_history(metrics, cid, agent):
-                await save_metrics(metrics)
-                await save_context_cache(ctx)
-                return least_busy_agent(["orchestrator-pheromone-scribe"])
-            await save_context_cache(ctx)
-            await save_metrics(metrics)
+            if handler:
+                await add_coordination_signal(handler, agent)
             return least_busy_agent([agent])
-    await save_context_cache(ctx)
-    await save_metrics(metrics)
-    return least_busy_agent(["orchestrator-pheromone-scribe"])
+    fallback = "orchestrator-pheromone-scribe"
+    if handler:
+        await add_coordination_signal(handler, fallback)
+    return fallback
 
 
 async def main() -> None:
     config = await load_config(".swarmConfig")
     pheromone = await load_pheromone(config)
-    next_agent = await determine_route(pheromone)
+    handler = PheromoneHandler(config.get("pheromoneFile", ".pheromone"))
+    next_agent = await determine_route(pheromone, handler)
     print(next_agent)
 
 
