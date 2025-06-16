@@ -1,221 +1,242 @@
 # 🐜 Phero-Swarm: AI Agent Orchestration via Digital Stigmergy
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-![Version](https://img.shields.io/badge/version-2.2.1--security--hardened-brightgreen)
+![Version](https://img.shields.io/badge/version-2.3.1--simplified-brightgreen)
 
 ## 🌟 Overview
 
-Phero-Swarm is a sophisticated **AI agent swarm orchestration framework** based on the principles of **digital stigmergy** — inspired by how social insects like ants coordinate through pheromone trails. This system enables autonomous software development through intelligent coordination of specialized AI agents without requiring direct agent-to-agent communication.
-
-**Security Note**: The security of the Phero-Swarm system is paramount. All configurations must be validated against a schema before loading, and their storage and modification must be strictly controlled. Operational security measures, such as hardening execution environments and implementing robust monitoring, are critical.
+Phero-Swarm is an **AI agent swarm orchestration framework** based on **digital stigmergy** — inspired by how ants coordinate through pheromone trails. Agents communicate by modifying a shared `.pheromone` file rather than direct messaging, enabling emergent coordination patterns for software development tasks.
 
 ### 🧠 Key Concepts
 
-- **Digital Stigmergy**: Agents communicate by modifying a shared environment (`.pheromone` file) rather than direct messaging.
-- **Natural Language Communication**: Agents provide human-readable summaries of their work.
-- **Central State Management**: Only the Pheromone Scribe interprets and updates the shared state. The Pheromone Scribe's execution environment must be hardened and secured.
-- **Human-Centric Design**: All outputs optimized for human understanding and oversight.
-- **Self-Optimization**: System monitors performance and evolves agent capabilities.
+- **Digital Stigmergy**: Agents coordinate by reading/writing signals to a shared `.pheromone` file
+- **Signal-Based Routing**: A traffic controller routes tasks based on pheromone signal analysis
+- **Specialized Agents**: Each agent has specific roles, file access permissions, and capabilities
+- **Evaporating Signals**: Signals decay over time, keeping the system focused on current priorities
+- **Human-Readable Communication**: All agent outputs are designed for human understanding
 
-## 🏗️ Architecture
+## 🏗️ Current Architecture
 
-### Three-Tier Information Flow
+### Agent Types (Defined in `.ROOMODES`)
 
-```
-Worker Modes → Task Orchestrators → Pheromone Scribe → .pheromone File
-     ↓              ↓                    ↓              ↓
-NL Summaries → Synthesis → Interpretation → JSON Signals
-```
-
-#### 1️⃣ Worker Modes (Executors)
-Specialized agents that perform specific tasks:
-- `coder-test-driven`: Implements code using TDD methodology
-- `tester-tdd-master`: Creates and runs tests
-- `debugger-targeted`: Diagnoses and fixes issues
-- `optimizer-module`: Improves performance
-- `docs-writer-feature`: Creates documentation
-- *And many more...*
-
-#### 2️⃣ Task Orchestrators (Coordinators)
-Higher-level agents that manage project phases:
-- `orchestrator-project-initialization`: Sets up new projects
-- `orchestrator-framework-scaffolding`: Creates boilerplate code
-- `orchestrator-feature-implementation-tdd`: Manages development
-- `orchestrator-refinement-and-maintenance`: Manages change requests
-
-#### 3️⃣ Meta-Orchestrators (Strategic)
-Highest-level agents managing the entire system:
+**🚦 Traffic & Coordination**
 - `traffic-controller`: Routes tasks based on pheromone signals
-- `orchestrator-pheromone-scribe`: Interprets summaries and updates state. Its operational environment must be highly secure.
-- `orchestrator-meta-alignment`: Ensures project alignment with goals.
-- `orchestrator-collective-intelligence`: Optimizes reasoning systems.
+- `orchestrator-pheromone-scribe`: Maintains the `.pheromone` file and coordinates handoffs
+
+**📋 Planning & Architecture**  
+- `concept-to-blueprint-translator`: Converts user concepts into project blueprints
+- `blueprint-feasibility-validator`: Validates project blueprints for risks and constraints
+- `research-planner-strategic`: Gathers information and plans follow-up tasks
+- `architect-highlevel-module`: Designs high-level system architecture
+- `architect-with-verification`: Architecture design with explicit verification and ADR tracking
+
+**⚙️ Development & Testing**
+- `coder-test-driven`: Implements features using TDD methodology
+- `debugger-targeted`: Diagnoses and fixes reported issues
+- `tester-tdd-master`: Runs automated tests and reports coverage
+- `context-manager`: Preserves project context across agent handoffs
+
+**🔍 Quality & Security**
+- `security-validator`: Performs static/dynamic security analysis and threat modeling
+- `performance-optimizer`: Profiles code and suggests optimizations  
+- `code-quality-auditor`: Assesses architecture and maintainability
 
 ## 🧪 Pheromone System
 
-The `.pheromone` file serves as the **collective memory and coordination medium**.
-**Security Note**: The `.pheromone` file is critical system state. Its integrity must be protected through strict file system permissions (write access only for the authenticated Pheromone Scribe process) and mechanisms like checksums or digital signatures to detect tampering.
+The `.pheromone` file contains structured signals that coordinate agent behavior:
 
 ```json
 {
   "signals": [
     {
-      "id": "unique_signal_identifier",
-      "signalType": "signal_type",
-      "target": "target_entity",
-      "strength": 0.8,
-      "message": "Human-readable description",
-      "data": {
-        "entity_specific_data": "values",
-        "file_paths": [],
-        "status_codes": ""
-      },
-      "timestamp": "ISO_timestamp"
+      "id": "unique-signal-id",
+      "signalType": "framework_scaffolding_needed",
+      "target": "coder-test-driven", 
+      "category": "need",
+      "strength": 8.0,
+      "message": "Framework scaffolding required",
+      "context": {
+        "modified_files": ["@docs/NewProject_Alpha_Blueprint.md"],
+        "key_decisions": ["use fastapi"],
+        "handoff_instructions": "generate project skeleton",
+        "verification": {"tests_passed": false},
+        "token_usage": 60,
+        "complexity_score": 4
+      }
     }
-  ],
-  "documentation_registry": {
-    /* Tracks all project documents for human reference */
-  },
-  "bayesian_beliefs": {
-    /* Probabilistic reasoning about project state */
-  },
-  "temporal_patterns": {
-    /* Detected sequences and workflows */
-  },
-  "learned_patterns": {
-    /* Knowledge derived from successful sequences */
-  }
+  ]
 }
 ```
 
-## 🔄 Information Flow Process
+### Signal Categories
+- **compass**: Strategic project direction (highest priority)
+- **state**: Progress updates and completion status
+- **need**: Work requests requiring agent action
+- **block**: Problems or obstacles needing resolution
+- **coordinate**: Agent handoffs and collaboration
 
-1.  **Worker Execution**: Worker agents complete tasks and generate rich natural language summaries.
-2.  **Orchestrator Synthesis**: Task orchestrators combine worker summaries into comprehensive reports.
-3.  **Scribe Interpretation**: Pheromone Scribe converts narratives into structured JSON signals. This process must be robust against malformed or malicious inputs.
-4.  **State Update**: Signals are stored in `.pheromone` file with appropriate lifecycle management.
-5.  **Collective Intelligence**: System learns from patterns and optimizes future behavior. Inputs to this system must be validated.
-6.  **Evolution Triggers**: Performance monitoring initiates agent improvements when needed. Data feeding evolution triggers must be secure and authentic.
+## 🔄 How It Works
 
-## ✨ Key Innovations
+1. **Signal Generation**: Agents complete work and emit progress signals
+2. **Traffic Control**: `traffic-controller` analyzes signals and routes to appropriate agents
+3. **Intelligent Routing**: Uses context continuity, specialist routing, and load balancing
+4. **Signal Evolution**: Signals evaporate over time, duplicates are consolidated
+5. **Human Oversight**: Built-in quality gates and escalation triggers
 
-### 🧬 Performance-Driven Evolution
-The system can evolve and improve agent capabilities:
-- Tracks performance metrics (completion times, success rates, resource usage). **Security**: These metrics must be sourced reliably and protected from tampering.
-- Identifies inefficient patterns and recurring failures.
-- Automatically rewrites agent instructions to improve performance. **Security**: The inputs influencing this rewriting (e.g., performance data, existing instructions) must be validated to prevent unsafe evolution.
-- Uses **Proof-Carrying Prompts (PCP)** for safe evolution. PCP involves rigorous validation of inputs that guide evolution, ensuring that generated prompts are not only effective but also adhere to predefined safety constraints and do not introduce vulnerabilities. This includes checks against adversarial inputs and ensuring the semantic integrity of the evolved instructions.
+## 🛠️ Current Implementation
 
-### 📊 Multi-Dimensional Intelligence
-- **Bayesian Belief Networks**: Probabilistic reasoning about project success.
-- **Temporal Pattern Detection**: Recognizes recurring sequences and workflows.
-- **Stigmergic Learning**: Reinforces successful patterns over time.
-- **Emergent Behavior Analysis**: Detects complex system behaviors.
+### Core Python Modules
 
-### 👤 Human-Centric Design
-- All outputs designed for human understanding.
-- Comprehensive documentation registry.
-- Natural language summaries at every level.
-- Audit trails for debugging and oversight.
+**`src/traffic_controller.py`**
+- Intelligent agent routing based on signal analysis
+- Context continuity (keeps agents on related tasks)
+- Specialist routing (security issues → security-validator)
+- Circuit breaker pattern (avoids overloaded agents)
+- Load balancing across available agents
 
-### 📦 Compressed State Management
-- Signals evaporate over time (fade away).
-- Related signals are consolidated.
-- Operational details are archived.
-- Only critical information is retained.
+**`src/pheromone_helpers.py`**
+- Core pheromone file operations (load/save)
+- Signal strength calculation
+- Context sanitization and compression
+- Signal consolidation logic
+
+**`src/signal_optimizer.py`**
+- Signal deduplication and consolidation
+- Strength normalization
+- Adaptive evaporation (signals decay over time)
+- Signal clustering by context
+
+**`src/architecture_diagrams.py`**
+- Generates Mermaid diagrams from current signals
+- Visualizes signal flow and file dependencies
+- Auto-updates `docs/architecture/` directory
+
+**`src/context_manager.py`**
+- Extracts decisions from agent summaries
+- Compresses context to stay under token limits
+- Validates file references for security
+- Tracks progress between contexts
+
+**`src/signal_analytics.py`**
+- Signal pattern analysis and metrics
+- Pollution detection (signal types exceeding thresholds)
+- Performance tracking
+
+### Configuration Files
+
+**`.swarmConfig`**
+- Core system configuration
+- Signal categories and priorities
+- Evaporation rates and thresholds
+- Context management settings
+
+**`.ROOMODES`**
+- Agent role definitions and permissions
+- File access patterns (regex-based)
+- Allowed tools and groups
+- Custom instructions for each agent
+
+### Templates
+
+- `templates/Project_Blueprint_Template.md`: Project planning structure
+- `templates/Architecture_Design_Template.md`: System design documentation
+- `templates/Feature_Specification_Template.md`: Feature requirements
+
+### Validation & Health Scripts
+
+**`scripts/validate_agent_access.py`**
+- Validates agent permissions and file access patterns
+- Security checks for disallowed tools
+- Ensures proper group membership
+
+**`scripts/architecture_health.py`**
+- Counts TODO markers (technical debt)
+- Analyzes Architecture Decision Records (ADRs)
+- Updates architecture health signals
 
 ## 🚀 Getting Started
 
-### Project Initialization
-1.  Create a blueprint file following the structure in `docs/NewProject_Alpha_Blueprint.md`. Ensure all inputs are sanitized.
-2.  Initialize the project with your blueprint.
-3.  The system will automatically:
-    - Research and plan the project
-    - Create specifications and architecture
-    - Develop a framework scaffold
-    - Implement features with tests
-    - Document the entire system
+### Basic Usage
 
-### Configuration
-Key configuration files:
-- `.swarmConfig`: Core configuration
-- `.swarm/detailed.config.json`: Interpretation logic
-- `.swarm/performance.config.json`: Performance monitoring
-- `.swarm/intelligence.config.json`: Collective intelligence
-- `.swarm/coordination.config.json`: Peer coordination
+1. **Create a project blueprint** using `docs/NewProject_Alpha_Blueprint.md` as a template
+2. **Initialize signals** by having the `concept-to-blueprint-translator` process your concept
+3. **Let the swarm work**: The `traffic-controller` will automatically route tasks
+4. **Monitor progress** by examining the `.pheromone` file and generated diagrams
 
-**Security Note**: All JSON configuration files MUST be validated against a strict schema before being loaded by the system. Ensure these files are stored securely and changes are managed through a version control system with appropriate reviews.
+### Example Signal Flow
 
-## 📝 Blueprint Creation
+```bash
+# Generate architecture diagrams from current signals
+python src/architecture_diagrams.py
 
-The quality of your project blueprint significantly impacts swarm performance. A good blueprint includes:
+# Validate agent permissions
+python scripts/validate_agent_access.py
 
-1.  **Strategic Foundation**
-    - Primary goals (3-5 maximum)
-    - Critical constraints
-    - Technology mandates
-    - Priority features
+# Check architecture health
+python scripts/architecture_health.py
 
-2.  **Swarm-Optimized Feature Breakdown**
-    - Dependencies between features
-    - Parallel work opportunities
-    - Integration points
-    - Success criteria
+# Run traffic controller to get next agent
+python src/traffic_controller.py
+```
 
-3.  **Performance and Evolution Guidance**
-    - Expected agent patterns
-    - Evolution triggers
-    - Success metrics baselines
+## 🔧 Key Features
 
-4.  **Human Oversight Points**
-    - Required reviews
-    - Quality gates
-    - Escalation triggers
+### Intelligent Traffic Control
+- **Context Continuity**: Agents stay with related tasks
+- **Specialist Routing**: Route security/performance issues to specialists  
+- **Circuit Breaker**: Avoid agents with high failure rates
+- **Load Balancing**: Distribute work evenly
 
-See `docs/NewProject_Alpha_Blueprint.md` for a detailed example. The generation of blueprints from user concepts must follow strict input sanitization and validation procedures as outlined in `docs/blueprint-generator-system-prompt.md`.
+### Signal Management
+- **Adaptive Evaporation**: Signals decay based on category and urgency
+- **Duplicate Consolidation**: Merge similar signals automatically
+- **Strength Normalization**: Keep signal strengths in 0-10 range
+- **Pattern Detection**: Learn from successful coordination sequences
 
-## 🔍 System Monitoring
+### Security & Validation
+- **File Access Control**: Regex-based file permission system
+- **Tool Restrictions**: Whitelist of allowed tools per agent
+- **Input Sanitization**: All inputs validated and sanitized
+- **Permission Validation**: Scripts to verify agent access patterns
 
-### Tracking Project Progress
-The `.pheromone` file contains all information about:
-- Current project state
-- Completed work
-- Pending tasks
-- Issues and blockers
-- Performance metrics
+## 🧪 Testing
 
-### Human Intervention
-The system is designed for appropriate human oversight:
-- Review documentation in the `documentation_registry`
-- Monitor performance through signal analysis
-- Intervene at predefined quality gates
-- Provide guidance when requested
+The system includes comprehensive tests for all core modules:
 
-## 🛠️ Advanced Features
+```bash
+# Run all tests with coverage
+pytest --cov=src --cov-report=term-missing
 
-### Peer Coordination Protocol
-Orchestrators can coordinate across boundaries. **Security**: This coordination is now protected by cryptographic agent authentication.
-- **Authenticated Handshake Protocol**: Establishes secure communication channels based on verified agent identities.
-- Boundary establishment for resource protection.
-- **Authenticated Consultation Mechanism**: Ensures complex decisions are made with trusted parties.
+# Test specific modules
+pytest tests/test_traffic_controller.py
+pytest tests/test_pheromone_helpers.py
+pytest tests/test_signal_optimizer.py
+```
 
-### Collective Intelligence Management
-The system optimizes its reasoning capabilities:
-- Bayesian network optimization.
-- Temporal pattern refinement.
-- Learning system supervision.
+## 📈 Current Capabilities vs. Planned
 
-### Error Recovery
-The system can detect and recover from errors:
-- Agent operational limit handling.
-- Workflow blockage resolution.
-- External system failure management.
+**✅ Currently Implemented:**
+- Core pheromone signaling system
+- Intelligent traffic routing
+- 14 specialized agent definitions
+- Signal optimization and evaporation
+- Security validation and access control
+- Architecture diagram generation
+- Comprehensive test suite
+
+**🚧 Planned/Partially Implemented:**
+- Full agent execution environment
+- Human review integration workflows
+- Advanced learning from feedback
+- Multi-project coordination
+- Extended performance monitoring
 
 ## 🤝 Contributing
 
 We welcome contributions to enhance the Phero-Swarm framework:
-- Improved agent definitions
-- Enhanced interpretation logic
-- New orchestration patterns
+- Improved routing algorithms
+- Additional agent specializations
+- Enhanced signal analytics
 - Performance optimizations
 - Security enhancements
 
@@ -223,10 +244,6 @@ We welcome contributions to enhance the Phero-Swarm framework:
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🔮 Future Directions
+---
 
-- Enhanced learning from human feedback
-- Multi-project coordination capabilities
-- Domain-specific agent specialization
-- Extended performance monitoring metrics
-- Integration with external CI/CD systems
+**Current Status**: Core coordination framework implemented with intelligent routing, signal management, and comprehensive testing. Ready for integration with agent execution environments.
