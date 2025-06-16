@@ -7,6 +7,12 @@
 
 Phero-Swarm is an **AI agent swarm orchestration framework** based on **digital stigmergy** — inspired by how ants coordinate through pheromone trails. Agents communicate by modifying a shared `.pheromone` file rather than direct messaging, enabling emergent coordination patterns for software development tasks.
 
+## 🖥️ System Requirements
+
+- Python 3.10 or newer
+- `pip install -r requirements.txt aiofiles`
+- Access to local file system for `.pheromone`, `.ROOMODES`, and `.swarmConfig`
+
 ### 🧠 Key Concepts
 
 - **Digital Stigmergy**: Agents coordinate by reading/writing signals to a shared `.pheromone` file
@@ -156,11 +162,30 @@ The `.pheromone` file contains structured signals that coordinate agent behavior
 
 ## 🚀 Getting Started
 
+### Quick Start
+
+1. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt aiofiles
+   ```
+2. **Validate system health**
+   ```bash
+   python validate_system_health.py
+   ```
+3. **Start the traffic controller**
+   ```bash
+   python src/traffic_controller.py
+   ```
+4. **Monitor progress** with
+   ```bash
+   python coordination_monitor.py --once
+   ```
+
 ### Basic Usage
 
 1. **Create a project blueprint** using `docs/NewProject_Alpha_Blueprint.md` as a template
-2. **Initialize signals** by having the `concept-to-blueprint-translator` process your concept
-3. **Let the swarm work**: The `traffic-controller` will automatically route tasks
+2. **Initialize signals** with the `concept-to-blueprint-translator`
+3. **Let the swarm work**: the `traffic-controller` will route tasks
 4. **Monitor progress** by examining the `.pheromone` file and generated diagrams
 
 ### Example Signal Flow
@@ -212,6 +237,14 @@ pytest tests/test_traffic_controller.py
 pytest tests/test_pheromone_helpers.py
 pytest tests/test_signal_optimizer.py
 ```
+
+## 📚 Documentation
+
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Coordination Guide](docs/COORDINATION_GUIDE.md)
+- [Maintenance](docs/MAINTENANCE.md)
+- [Operational Checklists](docs/OPERATIONAL_CHECKLISTS.md)
+- [Testing Protocol](docs/testing_protocol.md)
 
 ## 📈 Current Capabilities vs. Planned
 
