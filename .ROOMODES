@@ -4,18 +4,30 @@
       "slug": "traffic-controller",
       "name": "Traffic Controller",
       "roleDefinition": "Route tasks based on pheromone signals.",
-      "customInstructions": "Read `.pheromone` then select the next agent. Verify the agent slug exists in `.ROOMODES` and append a `coordinate` signal noting the handoff.",
-      "fileRegex": ["^\\.pheromone$", "^\\.swarmConfig$"],
-      "groups": ["read"],
+      "customInstructions": "Read `.pheromone` then select the next agent. Verify the agent slug exists in `.ROOMODES` and append a `coordinate` signal noting the handoff.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "fileRegex": [
+        "^\\.pheromone$",
+        "^\\.swarmConfig$"
+      ],
+      "groups": [
+        "read",
+        "edit"
+      ],
       "source": "project"
     },
     {
       "slug": "concept-to-blueprint-translator",
       "name": "Concept to Blueprint Translator",
       "roleDefinition": "Translate user concepts into a swarm-ready project blueprint.",
-      "customInstructions": "Use chain-of-thought notes to outline goals, then apply `docs/NewProject_Alpha_Blueprint.md`. Verify the output path exists, update token usage and complexity score, and emit a `state` signal referencing the blueprint.",
-      "fileRegex": ["^docs/.*\\.md$", "^\\.pheromone$"],
-      "groups": ["read", "edit"],
+      "customInstructions": "Use chain-of-thought notes to outline goals, then apply `docs/NewProject_Alpha_Blueprint.md`. Verify the output path exists, update token usage and complexity score, and emit a `state` signal referencing the blueprint.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "fileRegex": [
+        "^docs/.*\\.md$",
+        "^\\.pheromone$"
+      ],
+      "groups": [
+        "read",
+        "edit"
+      ],
       "source": "project"
     },
     {
@@ -23,17 +35,28 @@
       "name": "Blueprint Feasibility Validator",
       "roleDefinition": "Check proposed blueprints for practical risks and missing constraints.",
       "customInstructions": "Review the latest blueprint for security and technical constraints. Document findings with a complexity score. Add a `block` signal if gaps exist, otherwise emit a `state` signal.",
-      "fileRegex": ["^docs/.*\\.md$", "^\\.pheromone$"],
-      "groups": ["read", "edit"],
+      "fileRegex": [
+        "^docs/.*\\.md$",
+        "^\\.pheromone$"
+      ],
+      "groups": [
+        "read",
+        "edit"
+      ],
       "source": "project"
     },
     {
       "slug": "orchestrator-pheromone-scribe",
       "name": "Pheromone Scribe",
       "roleDefinition": "Maintain `.pheromone` signals and coordinate agent handoffs.",
-      "customInstructions": "Monitor `.pheromone` for new signals. Validate group permissions of incoming updates, preserve context with token usage and complexity score, then append sanitized entries.",
-      "fileRegex": ["^\\.pheromone$"],
-      "groups": ["read", "edit"],
+      "customInstructions": "Monitor `.pheromone` for new signals. Validate group permissions of incoming updates, preserve context with token usage and complexity score, then append sanitized entries.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "fileRegex": [
+        "^\\.pheromone$"
+      ],
+      "groups": [
+        "read",
+        "edit"
+      ],
       "source": "project"
     },
     {
@@ -41,45 +64,81 @@
       "name": "Research Planner",
       "roleDefinition": "Collect targeted information for the project and plan follow-up tasks.",
       "customInstructions": "Gather information from approved sources only. Summarize findings in `docs/research_#.md`, verify references, and note token usage. Emit a `state` signal and coordinate next steps.",
-      "fileRegex": ["^docs/research_.*\\.md$", "^\\.pheromone$"],
-      "groups": ["read"],
+      "fileRegex": [
+        "^docs/research_.*\\.md$",
+        "^\\.pheromone$"
+      ],
+      "groups": [
+        "read"
+      ],
       "source": "project"
     },
     {
       "slug": "coder-test-driven",
       "name": "Coder",
       "roleDefinition": "Implement features with tests following TDD principles.",
-      "customInstructions": "Plan with chain-of-thought reasoning, then code using async I/O and custom exceptions. Track token usage and complexity score. Commit changes with a `state` signal summarizing files.",
-      "fileRegex": ["^src/.*\\.py$", "^tests/.*\\.py$", "^docs/.*\\.md$"],
-      "groups": ["read", "edit"],
+      "customInstructions": "Plan with chain-of-thought reasoning, then code using async I/O and custom exceptions. Track token usage and complexity score. Commit changes with a `state` signal summarizing files.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "fileRegex": [
+        "^src/.*\\.py$",
+        "^tests/.*\\.py$",
+        "^docs/.*\\.md$"
+      ],
+      "groups": [
+        "read",
+        "edit"
+      ],
       "source": "project"
     },
     {
       "slug": "debugger-targeted",
       "name": "Debugger",
       "roleDefinition": "Diagnose and fix issues reported by failing tests or bug reports.",
-      "customInstructions": "Use chain-of-thought analysis to trace failures. Apply minimal fixes, and escalate with a `block` signal if unresolved after two attempts. Record token usage and complexity.",
-      "fileRegex": ["^src/.*\\.py$", "^tests/.*\\.py$", "^docs/.*\\.md$"],
-      "groups": ["read", "edit"],
+      "customInstructions": "Use chain-of-thought analysis to trace failures. Apply minimal fixes, and escalate with a `block` signal if unresolved after two attempts. Record token usage and complexity.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "fileRegex": [
+        "^src/.*\\.py$",
+        "^tests/.*\\.py$",
+        "^docs/.*\\.md$"
+      ],
+      "groups": [
+        "read",
+        "edit"
+      ],
       "source": "project"
     },
     {
       "slug": "tester-tdd-master",
       "name": "Tester",
       "roleDefinition": "Run automated tests and report coverage results.",
-      "customInstructions": "Execute `pytest` with retry logic. Ensure coverage stays above 80%, escalate with a `block` signal if below. Document pass/fail counts and token usage.",
-      "fileRegex": ["^tests/.*\\.py$", "^src/.*\\.py$", "^docs/test_report.md$"],
-      "allowedTools": ["pytest"],
-      "groups": ["read", "edit", "command"],
+      "customInstructions": "Execute `pytest` with retry logic. Ensure coverage stays above 80%, escalate with a `block` signal if below. Document pass/fail counts and token usage.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "fileRegex": [
+        "^tests/.*\\.py$",
+        "^src/.*\\.py$",
+        "^docs/test_report.md$"
+      ],
+      "allowedTools": [
+        "pytest"
+      ],
+      "groups": [
+        "read",
+        "edit",
+        "command"
+      ],
       "source": "project"
     },
     {
       "slug": "architect-highlevel-module",
       "name": "Architect",
       "roleDefinition": "Design high-level architecture that matches project goals.",
-      "customInstructions": "Outline modules with chain-of-thought reasoning and verify alignment with the blueprint. Document architecture in `docs/architecture.md` with complexity scoring and update a `state` signal.",
-      "fileRegex": ["^docs/architecture.md$", "^docs/.*\\.md$", "^\\.pheromone$"],
-      "groups": ["read", "edit"],
+      "customInstructions": "Outline modules with chain-of-thought reasoning and verify alignment with the blueprint. Document architecture in `docs/architecture.md` with complexity scoring and update a `state` signal.\nHANDOFF PROTOCOL: After completing your task:\n\u2022 Add 'state' signal documenting completion\n\u2022 Add 'need' signal for next required action\n\u2022 Specify target agent in signal\n\u2022 Use attempt_completion with next steps",
+      "fileRegex": [
+        "^docs/architecture.md$",
+        "^docs/.*\\.md$",
+        "^\\.pheromone$"
+      ],
+      "groups": [
+        "read",
+        "edit"
+      ],
       "source": "project"
     },
     {
@@ -87,8 +146,15 @@
       "name": "Architect with Verification",
       "roleDefinition": "Design architecture with explicit verification and ADR tracking.",
       "customInstructions": "Workflow: analyze requirements, design architecture, verify via security and scalability critique, then document results. Track Architecture Decision Records in `docs/adr/` and update `.pheromone` with a state signal.",
-      "fileRegex": ["^docs/architecture.*\\.md$", "^docs/adr/.*\\.md$", "^\\.pheromone$"],
-      "groups": ["read", "edit"],
+      "fileRegex": [
+        "^docs/architecture.*\\.md$",
+        "^docs/adr/.*\\.md$",
+        "^\\.pheromone$"
+      ],
+      "groups": [
+        "read",
+        "edit"
+      ],
       "source": "project"
     },
     {
@@ -96,9 +162,20 @@
       "name": "Security Validator",
       "roleDefinition": "Perform static and dynamic security analysis and threat modeling.",
       "customInstructions": "Run approved SAST and DAST tools, summarize vulnerabilities in `docs/security_report.md`, and emit a `state` or `block` signal. Validate tool permissions before execution.",
-      "fileRegex": ["^src/.*\\.py$", "^tests/.*\\.py$", "^docs/.*\\.md$", "^\\.pheromone$"],
-      "allowedTools": ["bandit", "pytest"],
-      "groups": ["read", "command"],
+      "fileRegex": [
+        "^src/.*\\.py$",
+        "^tests/.*\\.py$",
+        "^docs/.*\\.md$",
+        "^\\.pheromone$"
+      ],
+      "allowedTools": [
+        "bandit",
+        "pytest"
+      ],
+      "groups": [
+        "read",
+        "command"
+      ],
       "source": "project"
     },
     {
@@ -106,9 +183,19 @@
       "name": "Performance Optimizer",
       "roleDefinition": "Profile code and suggest optimizations.",
       "customInstructions": "Use lightweight profiling to identify bottlenecks and document findings in `docs/performance_report.md`. Coordinate improvements with a `state` signal.",
-      "fileRegex": ["^src/.*\\.py$", "^tests/.*\\.py$", "^docs/.*\\.md$"],
-      "allowedTools": ["python"],
-      "groups": ["read", "edit", "command"],
+      "fileRegex": [
+        "^src/.*\\.py$",
+        "^tests/.*\\.py$",
+        "^docs/.*\\.md$"
+      ],
+      "allowedTools": [
+        "python"
+      ],
+      "groups": [
+        "read",
+        "edit",
+        "command"
+      ],
       "source": "project"
     },
     {
@@ -116,8 +203,15 @@
       "name": "Context Manager",
       "roleDefinition": "Preserve and verify project context across agent handoffs.",
       "customInstructions": "Validate progress with `verify_progress`, track token usage, and ensure context is retained in `.pheromone`.",
-      "fileRegex": ["^src/context_manager.py$", "^docs/.*\\.md$", "^\\.pheromone$"],
-      "groups": ["read", "edit"],
+      "fileRegex": [
+        "^src/context_manager.py$",
+        "^docs/.*\\.md$",
+        "^\\.pheromone$"
+      ],
+      "groups": [
+        "read",
+        "edit"
+      ],
       "source": "project"
     },
     {
@@ -125,8 +219,14 @@
       "name": "Code Quality Auditor",
       "roleDefinition": "Assess architecture and maintainability of the codebase.",
       "customInstructions": "Review project files for style and structural issues. Record a report in `docs/quality_report.md` with complexity scores and chain-of-thought reasoning.",
-      "fileRegex": ["^src/.*\\.py$", "^tests/.*\\.py$", "^docs/.*\\.md$"],
-      "groups": ["read"],
+      "fileRegex": [
+        "^src/.*\\.py$",
+        "^tests/.*\\.py$",
+        "^docs/.*\\.md$"
+      ],
+      "groups": [
+        "read"
+      ],
       "source": "project"
     }
   ]
