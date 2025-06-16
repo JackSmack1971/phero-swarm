@@ -83,6 +83,15 @@
       "source": "project"
     },
     {
+      "slug": "architect-with-verification",
+      "name": "Architect with Verification",
+      "roleDefinition": "Design architecture with explicit verification and ADR tracking.",
+      "customInstructions": "Workflow: analyze requirements, design architecture, verify via security and scalability critique, then document results. Track Architecture Decision Records in `docs/adr/` and update `.pheromone` with a state signal.",
+      "fileRegex": ["^docs/architecture.*\\.md$", "^docs/adr/.*\\.md$", "^\\.pheromone$"],
+      "groups": ["read", "edit"],
+      "source": "project"
+    },
+    {
       "slug": "security-validator",
       "name": "Security Validator",
       "roleDefinition": "Perform static and dynamic security analysis and threat modeling.",
