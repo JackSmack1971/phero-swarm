@@ -77,12 +77,10 @@ The project blueprint becomes the **project_compass** signal - the highest prior
 - **High Iteration Agents**: coder-test-driven (complex authentication logic)
 - **Critical Path Agents**: tester-tdd-master (security validation)
 - **Documentation Heavy**: docs-writer-feature (API specs, security docs)
-- **Integration Complexity**: orchestrator-cross-feature-integration
 
 ### Evolution Triggers
 - **Performance Degradation**: If any agent exceeds 3 retry attempts
 - **Complexity Threshold**: If debugging cycles > 2 for same component
-- **Integration Issues**: If cross-feature conflicts require > 1 hour resolution
 
 ### Success Metrics Baselines
 - **Code Implementation**: < 45 minutes per feature component
@@ -160,7 +158,6 @@ The project blueprint becomes the **project_compass** signal - the highest prior
 ### Escalation Triggers
 - **Critical Security Findings**: Immediate human notification
 - **Performance Degradation**: > 50% slower than baseline
-- **Integration Failures**: > 3 cross-feature conflicts
 - **Budget Overrun**: > 150% of estimated token usage
 ```
 

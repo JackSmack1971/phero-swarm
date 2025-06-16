@@ -41,14 +41,12 @@ Higher-level agents that manage project phases:
 - `orchestrator-project-initialization`: Sets up new projects
 - `orchestrator-framework-scaffolding`: Creates boilerplate code
 - `orchestrator-feature-implementation-tdd`: Manages development
-- `orchestrator-cross-feature-integration`: Handles system integration
 - `orchestrator-refinement-and-maintenance`: Manages change requests
 
 #### 3️⃣ Meta-Orchestrators (Strategic)
 Highest-level agents managing the entire system:
-- `uber-orchestrator`: Routes tasks and manages coordination
+- `traffic-controller`: Routes tasks based on pheromone signals
 - `orchestrator-pheromone-scribe`: Interprets summaries and updates state. Its operational environment must be highly secure.
-- `metagenesis-orchestrator`: Evolves and improves agent capabilities.
 - `orchestrator-meta-alignment`: Ensures project alignment with goals.
 - `orchestrator-collective-intelligence`: Optimizes reasoning systems.
 
@@ -101,7 +99,7 @@ The `.pheromone` file serves as the **collective memory and coordination medium*
 ## ✨ Key Innovations
 
 ### 🧬 Performance-Driven Evolution
-The MetaGenesis system can evolve and improve agent capabilities:
+The system can evolve and improve agent capabilities:
 - Tracks performance metrics (completion times, success rates, resource usage). **Security**: These metrics must be sourced reliably and protected from tampering.
 - Identifies inefficient patterns and recurring failures.
 - Automatically rewrites agent instructions to improve performance. **Security**: The inputs influencing this rewriting (e.g., performance data, existing instructions) must be validated to prevent unsafe evolution.
