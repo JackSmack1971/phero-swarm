@@ -3,6 +3,7 @@ import json
 import re
 from pathlib import Path
 from typing import Any, Dict, List
+from .signal_optimizer import consolidate_duplicates, normalize_strengths
 
 from .context_manager import compress_context, validate_files, extract_decisions
 
@@ -59,6 +60,8 @@ async def update_pheromone(path: str, signal: Dict[str, Any]) -> None:
     signal["context"] = context
     pheromone.setdefault("signals", []).append(signal)
     pheromone["signals"] = consolidate_signals(pheromone["signals"])
+    pheromone["signals"] = consolidate_duplicates(pheromone["signals"])
+    pheromone["signals"] = normalize_strengths(pheromone["signals"])
     await save_pheromone(path, pheromone)
 
 

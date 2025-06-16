@@ -16,7 +16,8 @@
       "coordinate": 0.05
     },
     "signalPruneThreshold": 0.1,
-    "explorationRate": 0.02
+    "explorationRate": 0.02,
+    "adaptiveEvaporation": {"base": 0.05, "urgencyMultiplier": 1.2}
   },
   "signalCategories": {
     "compass": [
@@ -57,6 +58,9 @@
   "enhancedIntelligenceConfig": {
     "patternMatching": true
   },
+  "analyticsConfig": {"metricsFile": ".signal_metrics.json"},
+  "abTesting": {"enabled": false},
+  "monitoring": {"alerts": true},
   "contextConfig": {
     "maxTokens": 500,
     "retentionPolicy": "compress"

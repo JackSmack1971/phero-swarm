@@ -90,6 +90,15 @@ def circuit_breaker(metrics: Dict[str, Any], agent: str) -> bool:
     return total > 5 and failures / total > 0.5
 
 
+def update_routing_history(metrics: Dict[str, Any], context_id: str, agent: str) -> bool:
+    """Record routing history and detect potential loops."""
+    history = metrics.setdefault("routing_history", {}).setdefault(context_id, [])
+    history.append(agent)
+    if len(history) > 5:
+        history.pop(0)
+    return len(history) >= 3 and len(set(history[-3:])) == 1
+
+
 async def load_config(config_path: str) -> Dict[str, Any]:
     """Load swarm configuration."""
     return await load_json_file(config_path)
@@ -146,9 +155,16 @@ async def determine_route(pheromone: Dict[str, Any]) -> str:
                 fallback = "coder-test-driven" if agent == "tester-tdd-master" else "debugger-targeted"
                 await save_context_cache(ctx)
                 return least_busy_agent([fallback])
+            cid = signal.get("context", {}).get("id")
+            if cid and update_routing_history(metrics, cid, agent):
+                await save_metrics(metrics)
+                await save_context_cache(ctx)
+                return least_busy_agent(["orchestrator-pheromone-scribe"])
             await save_context_cache(ctx)
+            await save_metrics(metrics)
             return least_busy_agent([agent])
     await save_context_cache(ctx)
+    await save_metrics(metrics)
     return least_busy_agent(["orchestrator-pheromone-scribe"])
 
 
